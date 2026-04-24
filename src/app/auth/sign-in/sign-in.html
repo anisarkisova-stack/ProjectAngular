@@ -1,0 +1,31 @@
+<div class="signin-page">
+  <div class="signin-particles">
+    @for (p of particles; track $index) {
+      <div class="particle" [style]="p"></div>
+    }
+  </div>
+
+  <div class="signin-card">
+    <div class="signin-left">
+      <h2 class="signin-title">Welcome Back</h2>
+
+      <form [formGroup]="loginFormInfo" (ngSubmit)="login()">
+        <div class="field">
+          <input type="email" formControlName="email" placeholder="Email"/>
+        </div>
+        <div class="field">
+          <input type="password" formControlName="password" placeholder="Password"/>
+        </div>
+
+        <div class="btn-row">
+          <button type="submit">Sign In</button>
+          <a class="btn-outline" (click)="goToSignup.emit()" style="cursor:pointer">Registration</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="signin-right">
+      <img src="https://i.pinimg.com/1200x/32/92/41/329241a5c524dbbe31c77625ef8cd4ee.jpg" alt="">
+    </div>
+  </div>
+</div>

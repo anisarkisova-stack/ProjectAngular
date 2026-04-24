@@ -1,0 +1,224 @@
+<div class="profile-page">
+  <div class="profile-container">
+
+    <div class="sidebar">
+      <div class="card avatar-card">
+        <div class="avatar-wrap">
+          <div class="avatar">
+            <img *ngIf="user?.avatar" [src]="user?.avatar" alt="avatar"/>
+            <span *ngIf="!user?.avatar">{{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}</span>
+            <label class="avatar-edit" (click)="fileInput.click()">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </label>
+          </div>
+          <input #fileInput type="file" accept="image/*" (change)="onAvatarChange($event)" style="display:none"/>
+          <div class="user-meta">
+            <span class="username">{{ user?.firstName }} {{ user?.lastName }}</span>
+            <span class="useremail">{{ user?.email }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card nav-card">
+        <div class="nav-item" [class.active]="activeTab === 'info'" (click)="activeTab = 'info'">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          პირადი ინფო
+        </div>
+        <div class="nav-item" [class.active]="activeTab === 'password'" (click)="activeTab = 'password'">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          პაროლი
+        </div>
+        <div class="nav-item" [class.active]="activeTab === 'tickets'" (click)="activeTab = 'tickets'">
+          <svg viewBox="0 0 24 24"><path d="M2 9a2 2 0 012-2h16a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 000-4V9z"/></svg>
+          ბილეთები
+        </div>
+        <div class="nav-item logout-item" (click)="logout()">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          გამოსვლა
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+
+      <div class="alert success" *ngIf="successMsg">{{ successMsg }}</div>
+      <div class="alert error" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <!-- პირადი ინფო -->
+      <div class="card" *ngIf="activeTab === 'info'">
+        <div class="section-title">პირადი ინფორმაცია</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>სახელი</label>
+            <div class="inline-edit">
+              <input [formControl]="$any(profileForm.get('firstName'))" [readonly]="editingField !== 'firstName'"/>
+              <button *ngIf="editingField !== 'firstName'" class="edit-btn" (click)="editField('firstName')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'firstName'">
+                <button class="save-btn-sm" (click)="saveField('firstName')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+          <div class="field">
+            <label>გვარი</label>
+            <div class="inline-edit">
+              <input [formControl]="$any(profileForm.get('lastName'))" [readonly]="editingField !== 'lastName'"/>
+              <button *ngIf="editingField !== 'lastName'" class="edit-btn" (click)="editField('lastName')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'lastName'">
+                <button class="save-btn-sm" (click)="saveField('lastName')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>ასაკი</label>
+            <div class="inline-edit">
+              <input [formControl]="$any(profileForm.get('age'))" [readonly]="editingField !== 'age'"/>
+              <button *ngIf="editingField !== 'age'" class="edit-btn" (click)="editField('age')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'age'">
+                <button class="save-btn-sm" (click)="saveField('age')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+          <div class="field">
+            <label>ტელეფონი</label>
+            <div class="inline-edit">
+              <input [formControl]="$any(profileForm.get('phone'))" [readonly]="editingField !== 'phone'"/>
+              <button *ngIf="editingField !== 'phone'" class="edit-btn" (click)="editField('phone')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'phone'">
+                <button class="save-btn-sm" (click)="saveField('phone')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>ელ-ფოსტა</label>
+          <div class="inline-edit">
+            <input [formControl]="$any(profileForm.get('email'))" [readonly]="editingField !== 'email'"/>
+            <button *ngIf="editingField !== 'email'" class="edit-btn" (click)="editField('email')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+            </button>
+            <ng-container *ngIf="editingField === 'email'">
+              <button class="save-btn-sm" (click)="saveField('email')">შენახვა</button>
+              <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>მისამართი</label>
+          <div class="inline-edit">
+            <input [formControl]="$any(profileForm.get('address'))" [readonly]="editingField !== 'address'"/>
+            <button *ngIf="editingField !== 'address'" class="edit-btn" (click)="editField('address')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+            </button>
+            <ng-container *ngIf="editingField === 'address'">
+              <button class="save-btn-sm" (click)="saveField('address')">შენახვა</button>
+              <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>ZIP კოდი</label>
+            <div class="inline-edit">
+              <input [formControl]="$any(profileForm.get('zipcode'))" [readonly]="editingField !== 'zipcode'"/>
+              <button *ngIf="editingField !== 'zipcode'" class="edit-btn" (click)="editField('zipcode')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'zipcode'">
+                <button class="save-btn-sm" (click)="saveField('zipcode')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+          <div class="field">
+            <label>სქესი</label>
+            <div class="inline-edit">
+              <select [formControl]="$any(profileForm.get('gender'))" [attr.disabled]="editingField !== 'gender' ? true : null">
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+              <button *ngIf="editingField !== 'gender'" class="edit-btn" (click)="editField('gender')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
+              </button>
+              <ng-container *ngIf="editingField === 'gender'">
+                <button class="save-btn-sm" (click)="saveField('gender')">შენახვა</button>
+                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- პაროლი -->
+      <div class="card" *ngIf="activeTab === 'password'">
+        <div class="section-title">პაროლის შეცვლა</div>
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+          <div class="field">
+            <label>ძველი პაროლი</label>
+            <input type="password" formControlName="oldPassword" placeholder="••••••••"/>
+          </div>
+          <div class="field">
+            <label>ახალი პაროლი</label>
+            <input type="password" formControlName="newPassword" placeholder="••••••••"/>
+          </div>
+          <div class="field">
+            <label>გაიმეორე ახალი პაროლი</label>
+            <input type="password" formControlName="confirmPassword" placeholder="••••••••"/>
+          </div>
+          <div class="save-row">
+            <button type="submit" class="save-btn">შეცვლა</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ბილეთები -->
+      <div class="card" *ngIf="activeTab === 'tickets'">
+        <div class="section-title">ჩემი ბილეთები</div>
+        <div *ngIf="tickets.length === 0" style="text-align:center;color:#aaa;padding:2rem 0">
+          ბილეთები არ მოიძებნა
+        </div>
+        <div class="ticket-list">
+          <div class="ticket" *ngFor="let ticket of tickets; let i = index">
+            <div class="ticket-icon">
+              <svg viewBox="0 0 24 24"><path d="M2 9a2 2 0 012-2h16a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 000-4V9z"/></svg>
+            </div>
+            <div class="ticket-info">
+              <div class="ticket-name">{{ ticket.from }} → {{ ticket.to }}</div>
+              <div class="ticket-date">{{ ticket.date }} · {{ ticket.depTime }}</div>
+              <div style="margin-top:6px">
+                <span *ngFor="let p of ticket.passengers" style="font-size:12px;color:#888;display:block">
+                  {{ p.name }} {{ p.surname }} · {{ p.vagonName }} · ადგილი {{ p.seatNum }}
+                </span>
+              </div>
+            </div>
+            <div class="ticket-right">
+              <div class="ticket-price">₾ {{ ticket.total }}</div>
+              <div style="font-size:11px;color:#aaa;margin-top:2px"># {{ ticket.ticketId }}</div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

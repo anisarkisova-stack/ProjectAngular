@@ -1,0 +1,243 @@
+<div class="booking-page">
+
+  <div class="booking-topbar">
+    <span class="topbar-title">მგზავრის მონაცემები</span>
+  </div>
+
+  <div class="booking-layout">
+
+    <div class="booking-main">
+
+      <div class="card route-card">
+        <div class="route-row">
+          <div class="route-block">
+            <span class="route-time">{{ route.depTime }}</span>
+            <span class="route-city">{{ route.from }}</span>
+          </div>
+          <div class="route-mid">
+            <span class="train-badge">{{ route.trainId }}</span>
+            <div class="route-line">
+              <span class="dot"></span>
+              <span class="line"></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <span class="route-label">{{ route.trainName }}</span>
+          </div>
+          <div class="route-block right">
+            <span class="route-time">{{ route.arrTime }}</span>
+            <span class="route-city">{{ route.to }}</span>
+          </div>
+        </div>
+        <div class="route-meta">
+          <span>{{ formattedDate }}</span>
+          <span class="sep">·</span>
+          <span>{{ passengerCount }} მგზავრი</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">საკონტაქტო ინფორმაცია</h3>
+        <div class="form-row">
+          <div class="form-group" [class.error]="submitted && !contact.email.includes('@')">
+            <label>მეილი</label>
+            <input type="email" [(ngModel)]="contact.email" placeholder="example@mail.com"/>
+            @if (submitted && !contact.email.includes('@')) {
+              <span class="err-msg">სწორი იმეილი შეიყვანეთ</span>
+            }
+          </div>
+          <div class="form-group" [class.error]="phoneError || (submitted && contact.phone.length < 9)">
+            <label>ტელეფონის ნომერი</label>
+            <input type="tel" [(ngModel)]="contact.phone" (input)="validatePhone()" placeholder="555 123 456" maxlength="9"/>
+            @if (phoneError) { <span class="err-msg">{{ phoneError }}</span> }
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">მგზავრების ინფორმაცია</h3>
+
+        @for (p of passengers; track $index) {
+          <div class="passenger-block">
+            <div class="passenger-header">
+              <span class="passenger-num">{{ $index + 1 }}</span>
+              <span class="passenger-label">მგზავრი {{ $index + 1 }}</span>
+
+              @if (selectedSeats[$index]) {
+                <span class="seat-tag ok">
+                  {{ selectedSeats[$index]!.vagonName }} · {{ selectedSeats[$index]!.seat.number }}
+                  <button class="remove-seat" (click)="clearSeat($index)">✕</button>
+                </span>
+              } @else {
+                <span class="seat-tag">ადგილი არ არის</span>
+              }
+
+              <button class="pick-btn" (click)="openVagonPopup($index)">+ არჩევა</button>
+            </div>
+
+            <div class="form-row passenger-fields">
+              <div class="form-group" [class.error]="submitted && !p.firstName">
+                <label>სახელი</label>
+                <input type="text" [(ngModel)]="p.firstName" placeholder="სახელი"/>
+              </div>
+              <div class="form-group" [class.error]="submitted && !p.lastName">
+                <label>გვარი</label>
+                <input type="text" [(ngModel)]="p.lastName" placeholder="გვარი"/>
+              </div>
+              <div class="form-group" [class.error]="submitted && !isValidId(p.personalId)">
+                <label>პირადი ნომერი </label>
+                <input type="text" [(ngModel)]="p.personalId" (input)="limitId($index)" placeholder="00000000000" maxlength="11"/>
+                @if (submitted && !isValidId(p.personalId)) {
+                  <span class="err-msg">პირადი ნომერი უნდა იყოს 11 ციფრი</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <div class="booking-sidebar">
+      <div class="card invoice-card">
+        <h3 class="card-title">ინვოისი</h3>
+
+        @if (!selectedSeats.some(Boolean)) {
+          <p class="invoice-empty">ადგილები ჯერ არ არის არჩეული</p>
+        }
+
+        @for (s of selectedSeats; track $index) {
+          @if (s) {
+            <div class="invoice-row">
+              <span>{{ s.vagonName }} · {{ s.seat.number }}</span>
+              <span class="invoice-price">{{ s.seat.price }}₾</span>
+            </div>
+          }
+        }
+
+        <div class="invoice-total">
+          <span>სულ გადასახდელი:</span>
+          <span class="total-val">{{ totalPrice }}.00₾</span>
+        </div>
+
+        <label class="rules-check">
+          <input type="checkbox"/>
+          <span>წავიკითხე და ვეთანხმები წესებს</span>
+        </label>
+
+        <button class="submit-btn" [class.disabled]="!canSubmit()" (click)="submit()">
+          ბილეთის რეგისტრაცია
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+@if (showVagonPopup) {
+  <div class="popup-overlay" (click)="closeVagonPopup()">
+    <div class="popup" (click)="$event.stopPropagation()">
+      <button class="popup-close" (click)="closeVagonPopup()">✕</button>
+      <h3 class="popup-h">აირჩიეთ ვაგონი</h3>
+      <p class="popup-sub">დააჭირეთ ვაგონს ადგილის სანახავად</p>
+
+      @if (loadingVagons) {
+        <div class="loading-row"><div class="spinner"></div><span>იტვირთება...</span></div>
+      }
+
+      <div class="vagon-grid">
+        @for (v of vagons; track v.id) {
+          <div class="vagon-card"
+               [class.active]="selectedSeats[activePassengerIdx]?.vagonId === v.id"
+               (click)="selectVagon(v)">
+            <div class="train-wrap">
+              <svg viewBox="0 0 200 60" width="160" height="52" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="10" width="196" height="40" rx="8" [attr.fill]="VAGON_COLORS[v.name] || '#e74c3c'"/>
+                <rect x="10" y="4" width="180" height="12" rx="6" [attr.fill]="VAGON_COLORS[v.name] || '#e74c3c'"/>
+                <rect x="155" y="2" width="40" height="16" rx="6" [attr.fill]="VAGON_COLORS[v.name] || '#e74c3c'"/>
+                <polygon points="2,50 2,30 10,20 10,50" fill="#7b1a1a"/>
+                <rect x="12" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <rect x="38" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <rect x="64" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <rect x="90" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <rect x="116" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <rect x="142" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.32)"/>
+                <circle cx="30"  cy="54" r="6" fill="#2c3e50" stroke="#aaa" stroke-width="1.5"/>
+                <circle cx="30"  cy="54" r="2.5" fill="#aaa"/>
+                <circle cx="80"  cy="54" r="6" fill="#2c3e50" stroke="#aaa" stroke-width="1.5"/>
+                <circle cx="80"  cy="54" r="2.5" fill="#aaa"/>
+                <circle cx="130" cy="54" r="6" fill="#2c3e50" stroke="#aaa" stroke-width="1.5"/>
+                <circle cx="130" cy="54" r="2.5" fill="#aaa"/>
+                <circle cx="170" cy="54" r="6" fill="#2c3e50" stroke="#aaa" stroke-width="1.5"/>
+                <circle cx="170" cy="54" r="2.5" fill="#aaa"/>
+              </svg>
+            </div>
+            <div class="price-badge">დან {{ v.seats?.[0]?.price || 0 }}₾</div>
+            <div class="vagon-cname">{{ v.name }}</div>
+            <div class="free-count">{{ freeCount(v) }} თავისუფალი</div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+@if (showSeatPopup && activeVagon) {
+  <div class="popup-overlay" (click)="closeSeatPopup()">
+    <div class="popup" (click)="$event.stopPropagation()">
+      <button class="popup-close" (click)="closeSeatPopup()">✕</button>
+      <button class="back-btn" (click)="backToVagons()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        ვაგონის შეცვლა
+      </button>
+
+      <h3 class="popup-title2">ვაგონი — {{ activeVagon.name }}</h3>
+      @if (activeVagon.seats?.[0]) {
+        <p class="popup-price2">ფასი: <strong>{{ activeVagon.seats[0].price }}₾</strong></p>
+      }
+
+      <div class="wagon-body">
+        <div class="wagon-ends">
+          <span class="wagon-end-lbl">Toilet</span>
+          <span class="wagon-end-lbl">კარი</span>
+        </div>
+
+        <div class="wagon-rows">
+          @for (row of ROWS; track row) {
+            <div class="wagon-row">
+              @for (col of LEFT_COLS; track col) {
+                <button
+                  class="seat"
+                  [class]="getSeatClass(row, col)"
+                  [disabled]="getSeatClass(row, col) === 'occ' || getSeatClass(row, col) === 'empty'"
+                  (click)="pickSeat(row, col)"
+                >{{ row }}{{ col }}</button>
+              }
+              <span class="aisle">{{ row }}</span>
+              @for (col of RIGHT_COLS; track col) {
+                <button
+                  class="seat"
+                  [class]="getSeatClass(row, col)"
+                  [disabled]="getSeatClass(row, col) === 'occ' || getSeatClass(row, col) === 'empty'"
+                  (click)="pickSeat(row, col)"
+                >{{ row }}{{ col }}</button>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="wagon-ends" style="margin-top:10px">
+          <span class="wagon-end-lbl">კარი</span>
+          <span class="wagon-end-lbl">Toilet</span>
+        </div>
+      </div>
+
+      <div class="seat-legend">
+        <span class="legend-item"><span class="legend-dot free"></span>თავისუფალი</span>
+        <span class="legend-item"><span class="legend-dot occupied"></span>დაკავებული</span>
+        <span class="legend-item"><span class="legend-dot mine"></span>არჩეული</span>
+      </div>
+
+      <button class="popup-confirm" (click)="closeSeatPopup()">დადასტურება</button>
+    </div>
+  </div>
+}

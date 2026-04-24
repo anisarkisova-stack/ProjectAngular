@@ -1,0 +1,143 @@
+.signin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 40%, #ffd0d0 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 60%, rgba(192,57,43,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(231,76,60,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.08) 0%, transparent 60%);
+    z-index: 0;
+  }
+}
+
+.signin-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(192,57,43,0.06);
+    animation: floatShape linear infinite;
+  }
+}
+
+.signin-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+
+  .signin-left {
+    flex: 1;
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .signin-right {
+    width: 280px;
+    flex-shrink: 0;
+    background: #f0f0f0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .signin-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f05a5a;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .signin-subtitle { display: none; }
+
+  .field {
+    margin-bottom: 12px;
+
+    label { display: none; }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 13px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      background: #fff;
+      color: #333;
+      outline: none;
+      transition: border-color 0.15s;
+
+      &::placeholder { color: #ccc; }
+      &:focus { border-color: #f05a5a; }
+    }
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 1.5rem;
+
+    button[type="submit"] {
+      flex: 1;
+      padding: 12px;
+      background: #f05a5a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      &:hover { background: #e04444; }
+    }
+
+    .btn-outline {
+      flex: 1;
+      padding: 12px;
+      background: #fff;
+      color: #f05a5a;
+      border: 2px solid #f05a5a;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.15s;
+      display: block;
+      &:hover { background: #fff5f5; }
+    }
+  }
+}
+
+@keyframes floatShape {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+}

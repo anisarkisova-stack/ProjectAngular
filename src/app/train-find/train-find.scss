@@ -1,0 +1,194 @@
+$b-red:        #8b1a1a;
+$b-red-hover:  #a01e1e;
+$b-red-light:  #fde8e8;
+$b-red-xlight: #fff5f5;
+$b-border:     #e2e8f0;
+$b-text:       #1a2340;
+$b-muted:      #64748b;
+$b-light:      #94a3b8;
+$b-white:      #ffffff;
+$b-bg:         #fdf5f5;
+
+.train-section {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+  
+}
+
+
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: $b-white;
+  border: 1px solid $b-border;
+  border-radius: 100px;
+  padding: 8px 18px 8px 14px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  animation: fadeDown .4s ease both;
+}
+
+.badge-station {
+  font-size: 14px;
+  font-weight: 700;
+  color: $b-text;
+}
+
+.badge-arrow { color: $b-red; display: flex; align-items: center; }
+
+.badge-meta  { font-size: 13px; color: $b-muted; }
+
+.badge-dot {
+  width: 4px; height: 4px;
+  background: $b-border;
+  border-radius: 50%;
+}
+
+.train-table {
+  background: $b-white;
+  border-radius: 14px;
+  border: 1px solid $b-border;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(139, 26, 26, .07);
+  animation: fadeUp .45s ease both;
+}
+
+.table-title {
+  font-size: 20px;
+  font-weight: 800;
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid $b-border;
+  color: $b-text;
+}
+
+.table-head {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr 1.1fr 155px;
+  padding: 11px 28px;
+  background: #fdf5f5;
+  border-bottom: 1px solid $b-border;
+
+  span {
+    font-size: 12px;
+    font-weight: 700;
+    color: $b-light;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+}
+
+.train-row {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr 1.1fr 155px;
+  align-items: center;
+  padding: 18px 28px;
+  border-bottom: 1px solid $b-border;
+  transition: background .18s;
+  animation: fadeUp .4s ease both;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $b-red-xlight; }
+  &:nth-child(odd) {
+    background: #fffafa;
+    &:hover { background: $b-red-xlight; }
+  }
+
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) { animation-delay: #{$i * 0.05}s; }
+  }
+}
+
+.row-name { display: flex; flex-direction: column; gap: 4px; }
+
+.row-number { font-size: 16px; font-weight: 800; color: $b-text; }
+
+.row-route  { font-size: 13px; color: $b-muted; }
+
+.row-time {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-left: 2px solid $b-border;
+  padding-left: 18px;
+}
+
+.time-val  { font-size: 20px; font-weight: 800; color: $b-text; letter-spacing: -.3px; }
+.time-city { font-size: 13px; color: $b-muted; }
+
+.row-action { display: flex; justify-content: flex-end; }
+
+.btn-book {
+  background: linear-gradient(135deg, #f28e8e 0%, #8b1a1a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, transform .15s, box-shadow .2s;
+
+&:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 35px rgba(192,57,43,0.45);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+.train-loading,
+.train-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 60px 24px;
+  color: $b-light;
+
+  p { font-size: 15px; }
+}
+
+.spinner {
+  width: 38px; height: 38px;
+  border: 3px solid $b-border;
+  border-top-color: $b-red;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .train-section { padding: 24px 12px 40px; }
+
+  .table-head,
+  .train-row {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px 16px;
+    gap: 10px 0;
+  }
+
+  .table-head span:last-child { display: none; }
+
+  .row-action {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .route-badge { flex-wrap: wrap; }
+}

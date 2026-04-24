@@ -1,0 +1,51 @@
+<div class="register-page">
+  <div class="topbar">
+    <p>k</p>
+    <span class="topbar-title">გადახდის გვერდი</span>
+  </div>
+
+  <main class="main">
+    <div class="card">
+
+      <div class="card__amount">
+        სულ გადასახდელი: <span class="amount-val">{{ totalAmount }}</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ბარათის ნომერი <span class="required">*</span></label>
+        <input type="text" class="input" [(ngModel)]="cardNumber" (input)="formatCardNumber()" placeholder="2456 1665 5155 5151" maxlength="19"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">მოქმედების ვადა <span class="required">*</span></label>
+          <input type="text" class="input" [(ngModel)]="expiry" (input)="formatExpiry()" placeholder="MM/YY" maxlength="8"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC / CVV <span class="required">*</span></label>
+          <input type="text" class="input" [(ngModel)]="cvv" placeholder="•••" maxlength="4"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ბარათის მფლობელი</label>
+        <input type="text" class="input" [(ngModel)]="cardHolder" placeholder="J. Smith"/>
+      </div>
+
+      <button class="btn-pay" [disabled]="loading" (click)="handlePayment()">
+        @if (loading) {
+          <span class="loader"></span>
+          <span>მუშავდება...</span>
+        } @else {
+          <span>გადახდა</span>
+        }
+      </button>
+
+      @if (errorMsg) {
+        <div class="error-msg">{{ errorMsg }}</div>
+      }
+
+    </div>
+  </main>
+
+</div>

@@ -1,0 +1,200 @@
+
+<main>
+  <section class="hero">
+    <div class="steps">
+      <div class="step step--done">
+        <div class="step__dot"></div>
+        <span>შეკვეთა</span>
+      </div>
+      <div class="step__line step__line--done"></div>
+      <div class="step step--done">
+        <div class="step__dot"></div>
+        <span>მონაცემები</span>
+      </div>
+      <div class="step__line step__line--done"></div>
+      <div class="step step--done">
+        <div class="step__dot"></div>
+        <span>გადახდა</span>
+      </div>
+      <div class="step__line step__line--done"></div>
+      <div class="step step--active">
+        <div class="step__dot"></div>
+        <span>დასრულება</span>
+      </div>
+    </div>
+
+    <div class="hero__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+    </div>
+    <h1 class="hero__title">გადახდა წარმატებულია</h1>
+    <p class="hero__sub">თქვენი ბილეთი დარეგისტრირდა — ინვოისი მზადაა</p>
+  </section>
+
+  <div class="page">
+
+    <div class="sidebar">
+      <button class="side-btn" (click)="print()" title="დაბეჭდვა">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        <span>ბეჭდვა</span>
+      </button>
+      <button class="side-btn" (click)="print()" title="გადმოწერა">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>გადმოწერა</span>
+      </button>
+    </div>
+
+    <div class="doc">
+
+      <div class="doc-header">
+        <div class="doc-brand">
+          <div class="doc-brand__logo">
+            <svg width="32" height="32" viewBox="0 -15.5 1055 1055" xmlns="http://www.w3.org/2000/svg">
+              <path d="M219.508059 593.933479h600.814167s-23.510324 70.530972-62.694197 70.530972H229.946643l-10.438584-70.530972zM222.109868 348.391655h130.62336v143.663753zM459.830591 356.22843h143.679427l151.500528 122.770912h-148.898719z" fill="#C0EAFF"/>
+              <path d="M751.421303 677.536192H224.727351a15.673549 15.673549 0 0 1-15.67355-15.67355V277.89203a15.673549 15.673549 0 0 1 31.347099 0v368.297063h511.020403c22.115378 0 41.5976-12.726922 53.446803-34.920668 14.451013-27.06822 13.353864-60.546921-2.664503-85.938071L576.002939 338.580013a15.01526 15.01526 0 0 1-1.285231-1.175516c-27.397364-28.275083-62.584483-43.838918-99.072506-43.838918H300.493288a15.673549 15.673549 0 0 1 0-31.347098h175.151914c44.763657 0 87.693509 18.714218 120.968454 52.741493l227.407528 187.722101c1.175516 0.97176 2.194297 2.100256 3.040668 3.354139 23.49465 35.093077 25.641927 82.192093 5.470069 119.981021-17.209557 32.256165-47.537875 51.518957-81.110618 51.518957z" fill="#1F87DD"/>
+              <path d="M781.138353 507.117689h-325.226149a15.673549 15.673549 0 0 1-15.67355-15.673549v-141.061944a15.673549 15.673549 0 0 1 15.67355-15.67355h69.230067a15.673549 15.673549 0 0 1 0 31.347099h-53.556518v109.714846h309.5526a15.673549 15.673549 0 0 1 0 31.347098zM353.673641 507.117689H236.357124a15.673549 15.673549 0 0 1 0-31.347098h101.642968v-109.714846H236.357124a15.673549 15.673549 0 0 1 0-31.347099h117.316517a15.673549 15.673549 0 0 1 15.67355 15.67355v141.061944a15.673549 15.673549 0 0 1-15.67355 15.673549z" fill="#1F87DD"/>
+            </svg>
+          </div>
+          <div class="doc-brand__info">
+            <div class="doc-brand__name">Step Railway</div>
+            <div class="doc-brand__sub">სატრანსპორტო ინვოისი</div>
+          </div>
+        </div>
+        <div class="doc-status">
+          <div class="doc-status__badge">დადასტურებულია</div>
+          <div class="doc-status__meta">
+            <span>№ <strong>{{ ticketId }}</strong></span>
+            <span>{{ issueDate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="route-section">
+        <div class="route-point">
+          <div class="route-point__label">გამგზავრება</div>
+          <div class="route-point__value">{{ from }}</div>
+        </div>
+        <div class="route-arrow">
+          <svg viewBox="0 0 40 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="6" x2="32" y2="6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+            <path d="M28 2l6 4-6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="route-point route-point--dest">
+          <div class="route-point__label">ჩასვლა</div>
+          <div class="route-point__value">{{ to }}</div>
+        </div>
+        <div class="route-date">
+          <div class="route-point__label">თარიღი</div>
+          <div class="route-point__value route-point__value--date">{{ travelDate }}</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-grid">
+        <div class="info-block">
+          <div class="info-block__title">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M8 2a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2-5 6-5s6 2 6 5"/>
+            </svg>
+            საკონტაქტო ინფორმაცია
+          </div>
+          <div class="info-row">
+            <span class="info-row__lbl">იმეილი</span>
+            <span class="info-row__val">{{ email }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-row__lbl">ტელეფონი</span>
+            <span class="info-row__val">{{ phone }}</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block__title">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="4" width="12" height="9" rx="1.5"/>
+              <path d="M5 4V3a3 3 0 016 0v1"/>
+            </svg>
+            გადახდის ინფორმაცია
+          </div>
+          <div class="info-row">
+            <span class="info-row__lbl">ბარათის მფლობელი</span>
+            <span class="info-row__val">{{ cardName }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-row__lbl">ბარათის ნომერი</span>
+            <span class="info-row__val info-row__val--mono">{{ cardMasked }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="pax-section">
+        <div class="pax-section__title">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="5" cy="5" r="2.5"/>
+            <circle cx="11" cy="5" r="2.5"/>
+            <path d="M1 14c0-2.5 1.8-4 4-4M15 14c0-2.5-1.8-4-4-4M8 10c2.2 0 4 1.5 4 4H4c0-2.5 1.8-4 4-4z"/>
+          </svg>
+          მგზავრები
+        </div>
+        <div class="pax-table">
+          <div class="pax-table__head">
+            <div>სახელი</div>
+            <div>გვარი</div>
+            <div>პირადი ნომერი</div>
+            <div>ადგილი</div>
+            <div>ვაგონი</div>
+            <div class="align-right">ფასი</div>
+          </div>
+          @for (p of passengers; track $index) {
+            <div class="pax-table__row">
+              <div class="pax-table__name">{{ p.name || '—' }}</div>
+              <div>{{ p.surname   || '—' }}</div>
+              <div class="pax-table__id">{{ p.idNumber  || '—' }}</div>
+              <div>
+                <span class="seat-badge">{{ p.seatNum || '—' }}</span>
+              </div>
+              <div>{{ p.vagonName || '—' }}</div>
+              <div class="align-right pax-table__price">{{ p.price | number:'1.2-2' }}₾</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="total-bar">
+        <div class="total-bar__note">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="8" r="6"/>
+            <path d="M8 7v4M8 5v.5"/>
+          </svg>
+          ინვოისი ვალიდურია ბეჭდის გარეშე
+        </div>
+        <div class="total-bar__sum">
+          <span class="total-bar__lbl">სულ გადახდილია</span>
+          <span class="total-bar__val">{{ totalVal }}₾</span>
+        </div>
+      </div>
+
+      <div class="doc-footer-note">
+        <span class="doc-footer-note--red">
+          შეინახეთ ბილეთის ნომერი ადგილზე წარსადგენად: <strong>{{ ticketId }}</strong>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</main>
+

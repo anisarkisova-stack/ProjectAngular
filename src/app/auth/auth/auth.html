@@ -1,0 +1,7 @@
+<section>
+  @if (currentView === 'signin') {
+    <app-signin (goToSignup)="currentView = 'signup'"></app-signin>
+  } @else {
+    <app-signup (goToSignin)="currentView = 'signin'"></app-signup>
+  }
+</section>

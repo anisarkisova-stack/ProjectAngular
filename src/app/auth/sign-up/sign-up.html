@@ -1,0 +1,70 @@
+<div class="signup-page">
+  <div class="signup-particles">
+    @for (p of particles; track $index) {
+      <div class="particle" [style]="p"></div>
+    }
+  </div>
+
+  <div class="signup-card">
+    <div class="signup-left">
+      <h2 class="signup-title">Create Account</h2>
+
+      <form [formGroup]="formInfo" (ngSubmit)="register()">
+        <div class="two-col">
+          <div class="field">
+            <input type="text" formControlName="firstName" placeholder="First Name"/>
+          </div>
+          <div class="field">
+            <input type="text" formControlName="lastName" placeholder="Last Name"/>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <input type="text" formControlName="age" placeholder="Age"/>
+          </div>
+          <div class="field">
+            <input type="text" formControlName="phone" placeholder="Phone"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <input type="email" formControlName="email" placeholder="Email"/>
+        </div>
+        <div class="field">
+          <input type="password" formControlName="password" placeholder="Password"/>
+        </div>
+        <div class="field">
+          <input type="text" formControlName="address" placeholder="Address"/>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <input type="text" formControlName="zipcode" placeholder="Zip Code"/>
+          </div>
+          <div class="field">
+            <select formControlName="gender">
+              <option value="">Gender</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <input type="text" formControlName="avatar" placeholder="Avatar URL"/>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn-outline" (click)="goToSignin.emit()" style="cursor:pointer">Sign In</a>
+          <button type="submit">Registration</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="signup-right">
+      <img src="https://i.pinimg.com/1200x/32/92/41/329241a5c524dbbe31c77625ef8cd4ee.jpg" alt="">
+    </div>
+  </div>
+</div>
