@@ -156,10 +156,10 @@ export class Main implements OnInit, OnDestroy {
   }
 
   // auth guard
-  if (!sessionStorage.getItem('user')) {
-    this.showAuthModal = true;
-    return;
-  }
+  // if (!sessionStorage.getItem('user')) {
+  //   this.showAuthModal = true;
+  //   return;
+  // }
 
   const y = this.chosenDate.getFullYear();
   const m = String(this.chosenDate.getMonth() + 1).padStart(2, '0');

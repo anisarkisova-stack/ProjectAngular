@@ -80,3 +80,22 @@ $b-white:      #ffffff;
     @media (max-width: 640px) { flex-direction: column; }
   }
 }
+:host-context([data-theme="dark"]) {
+  .header {
+    background: linear-gradient(135deg, #1e1e1e 20%, #2d2d2d 50%, #1e1e1e 100%);
+  }
+
+  .btn-auth {
+    color: #c4908a;
+    border-color: rgba(180,120,115,0.35);
+    background: rgba(180,120,115,0.08);
+    &:hover { background: rgba(180,120,115,0.15); }
+  }
+
+  .btn1 {
+    background: linear-gradient(135deg, #a06060 0%, #5a2020 100%);
+    &:hover {
+      box-shadow: 0 10px 35px rgba(160,90,90,0.4);
+    }
+  }
+}

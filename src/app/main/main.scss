@@ -581,3 +581,73 @@ $white:      #ffffff;
   from { opacity: 0; transform: translateY(30px) scale(0.95); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
+:host-context([data-theme="dark"]) {
+  .hero__bg {
+    background: linear-gradient(135deg, #1a1a1a 0%, #242424 40%, #1e1e1e 100%);
+  }
+
+  .hero__overlay {
+    background:
+      radial-gradient(ellipse at 10% 60%, rgba(150,80,80,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(150,80,80,0.06) 0%, transparent 50%);
+  }
+
+  .hero__title        { color: #e8e8e8; }
+  .hero__sub          { color: #a0a0a0; }
+.hero__stat-num     { color: #b87870; }
+  .hero__stat-label   { color: #808080; }
+.hero__badge        { background: rgba(180,110,110,0.15); color: #b87870; border-color: rgba(180,110,110,0.2); }
+
+  .hero__features     { background: #222222; border-color: #333333; }
+  .hero__feature      { &:hover { background: #2a2a2a; } }
+.hero__feature-icon { background: #2a2a2a; border-color: rgba(180,110,110,0.15); }
+  .hero__feature-title{ color: #e0e0e0; }
+  .hero__feature-sub  { color: #808080; }
+
+  .booking-card {
+    background: #222222;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  }
+
+  .booking-card__header { color: #e0e0e0; border-color: #333333; }
+
+  .booking-field {
+    &__label { color: #b87870; }
+
+    button, input {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #e0e0e0;
+  &:hover { border-color: #b87870; }
+        &.filled { background: #2a2a2a; color: #e0e0e0; }
+    }
+  }
+
+  .booking-dropdown {
+    background: #222222;
+    border-color: #3a3a3a;
+    li button {
+      background: #222222;
+      color: #e0e0e0;
+      &:hover { color: #b87870; }
+  &.active { color: #b87870; }
+    }
+  }
+
+  .booking-calendar {
+    background: #222222;
+  &__head span { color: #b87870; }
+    &__grid button {
+      color: #e0e0e0;
+       &:hover:not(:disabled) { color: #b87870; }
+      &:disabled { color: #555555; }
+       &.today { color: #b87870; }
+    }
+  }
+
+  .auth-modal {
+    background: #222222;
+    h3 { color: #e0e0e0; }
+    p  { color: #a0a0a0; }
+  }
+}

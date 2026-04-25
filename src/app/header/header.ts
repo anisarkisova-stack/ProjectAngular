@@ -3,10 +3,12 @@ import { CartService } from '../auth/cart-service';
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ThemeToggleComponent } from '../shared/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule],
+    standalone: true, 
+  imports: [RouterLink, CommonModule,ThemeToggleComponent],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
