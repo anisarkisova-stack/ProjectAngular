@@ -1,17 +1,51 @@
 .profile-page {
   min-height: 100vh;
-  background: #fef5f5;
   padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 40%, #ffd0d0 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 60%, rgba(192,57,43,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(231,76,60,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.08) 0%, transparent 60%);
+    z-index: 0;
+  }
+}
+
+.profile-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(192,57,43,0.06);
+    animation: floatShape linear infinite;
+  }
+}
+@keyframes floatShape {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
 }
 
 .profile-container {
+  position: relative;
+  z-index: 1;
   max-width: 900px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 20px;
 }
-
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -261,4 +295,104 @@
   font-weight: 500;
   &.success { background: #e8f5e9; color: #388e3c; }
   &.error { background: #fff0f0; color: #f05a5a; }
+}
+:host-context([data-theme="dark"]) {
+.profile-page {
+    background: linear-gradient(135deg, #1a1a1a 0%, #242424 40%, #1e1e1e 100%);
+
+    &::before {
+      background:
+        radial-gradient(ellipse at 10% 60%, rgba(150,80,80,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, rgba(150,80,80,0.06) 0%, transparent 50%);
+    }
+  }
+  .card {
+    background: #222222;
+    border-color: #3a3a3a;
+  }
+
+  .avatar-card {
+    .username  { color: #e0e0e0; }
+    .useremail { color: #808080; }
+  }
+
+  .nav-card {
+    .nav-item {
+      color: #a0a0a0;
+      &:hover { background: #2a2a2a; }
+      &.active { background: #2f2020; color: #c4908a; }
+    }
+  }
+
+  .logout-item {
+    color: #c4908a !important;
+    border-color: #3a3a3a;
+  }
+
+  .section-title { color: #e0e0e0; }
+
+  .field {
+    label { color: #808080; }
+
+    input, select {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #e0e0e0;
+      &:focus { border-color: #b87870; background: #303030; }
+      &[readonly] {
+        background: #2a2a2a;
+        border-color: transparent;
+        border-bottom-color: #3a3a3a;
+        color: #e0e0e0;
+      }
+    }
+  }
+
+  .ticket {
+    border-color: #3a3a3a;
+    &:hover { border-color: #b87870; }
+
+    .ticket-icon {
+      background: #2f2020;
+      svg { stroke: #c4908a; }
+    }
+
+    .ticket-info {
+      .ticket-name { color: #e0e0e0; }
+      .ticket-date { color: #808080; }
+    }
+
+    .ticket-right {
+      .ticket-price { color: #c4908a; }
+    }
+  }
+
+  .save-btn {
+    background: #a06060;
+    &:hover { background: #b87070; }
+  }
+
+  .save-btn-sm {
+    background: #a06060;
+    &:hover { background: #b87070; }
+  }
+
+  .cancel-btn {
+    color: #808080;
+    border-color: #3a3a3a;
+    &:hover { background: #2a2a2a; }
+  }
+
+  .edit-btn { color: #c4908a; }
+
+  .delete-btn {
+    color: #c4908a;
+    border-color: #a06060;
+    &:hover { background: #2f2020; }
+  }
+
+  .alert {
+    &.success { background: #1a3a2a; color: #6abf8a; }
+    &.error   { background: #3a1a1a; color: #c4908a; }
+  }
 }

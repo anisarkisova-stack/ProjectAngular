@@ -14,18 +14,54 @@ $muted:   #6b7280;
 $pin:    #682626;
 $ff:      'Noto Sans Georgian', sans-serif;
 
+.check-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 40%, #ffd0d0 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 10% 60%, rgba(192,57,43,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, rgba(231,76,60,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(192,57,43,0.08) 0%, transparent 60%);
+    z-index: 0;
+  }
+}
+
+.check-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(192,57,43,0.06);
+    animation: floatShape linear infinite;
+  }
+}
 
 .check-wrap {
-  max-width: 860px;
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
   padding: 36px 20px 80px;
   font-family: $ff;
   color: $text;
+  flex: 1;
 }
 
-
 .search-card {
-  background: linear-gradient(89.58deg, rgba(0, 0, 0, 0.3) 0.34%, rgba(143, 4, 4, 0.645) 99.64%);
+  background: $white;
   border: 1px solid $border;
   border-radius: 14px;
   padding: 28px 32px;
@@ -37,6 +73,7 @@ $ff:      'Noto Sans Georgian', sans-serif;
     font-weight: 700;
     margin-bottom: 18px;
     letter-spacing: .02em;
+    color: $text;
   }
 }
 
@@ -58,7 +95,7 @@ $ff:      'Noto Sans Georgian', sans-serif;
   background: #fafbff;
   transition: border-color .2s, box-shadow .2s;
 
-  &::placeholder { color: lighten($muted, 20%); }
+  &::placeholder { color: #9ca3af; }
 
   &:focus {
     outline: none;
@@ -85,8 +122,8 @@ $ff:      'Noto Sans Georgian', sans-serif;
 
   &--error {
     background: $crimson-light;
-    border: 1px solid lighten($crimson, 28%);
-    color: darken($crimson, 5%);
+    border: 1px solid #f5a5a5;
+    color: #7f1d1d;
   }
 }
 
@@ -109,22 +146,21 @@ $ff:      'Noto Sans Georgian', sans-serif;
   &:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
 
   &--primary {
-    background: $pin;
+  background: linear-gradient(135deg, #f28e8e 0%, #8b1a1a 100%);
     color: $white;
     &:hover:not(:disabled) {
-      background: darken($pin, 8%);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba($navy, .25);
+     transform: translateY(-2px);
+    box-shadow: 0 10px 35px rgba(192,57,43,0.45);
     }
   }
 
   &--danger {
     background: $crimson;
     color: $white;
-    border: 2px solid darken($crimson, 8%);
+    border: 2px solid #7f1d1d;
     &:hover:not(:disabled) {
       background: $crimson-dark;
-      border-color: darken($crimson-dark, 4%);
+      border-color: #6b1212;
       transform: translateY(-1px);
       box-shadow: 0 6px 18px rgba($crimson, .4);
     }
@@ -229,7 +265,6 @@ $ff:      'Noto Sans Georgian', sans-serif;
   @media (max-width: 520px) { padding: 18px 14px; }
 }
 
-// ── Info Grid ─────────────────────────────────────────────────
 .info-grid {
   border: 1px solid $border;
   border-radius: 8px;
@@ -434,21 +469,39 @@ $ff:      'Noto Sans Georgian', sans-serif;
 }
 
 @keyframes spin    { to { transform: rotate(360deg); } }
-@keyframes fadeIn  { from { opacity: 0; }                              to { opacity: 1; } }
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fadeUp  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes popIn   { from { transform: scale(0); }                     to { transform: scale(1); } }
-@keyframes scaleIn { from { transform: scale(.85); opacity: 0; }       to { transform: scale(1); opacity: 1; } }
+@keyframes popIn   { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes scaleIn { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes floatShape {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+}
 
 @media print {
   .status-banner, .cancel-bar, .btn { display: none !important; }
   .doc { box-shadow: none; border: none; padding: 0; }
 }
+
 :host-context([data-theme="dark"]) {
+  .check-page {
+    background: linear-gradient(135deg, #1a1a1a 0%, #242424 40%, #1e1e1e 100%);
+
+    &::before {
+      background:
+        radial-gradient(ellipse at 10% 60%, rgba(150,80,80,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, rgba(150,80,80,0.06) 0%, transparent 50%);
+    }
+  }
+
   .check-wrap { color: #e0e0e0; }
 
   .search-card {
-    background: linear-gradient(89.58deg, rgba(0,0,0,0.5) 0.34%, rgba(100,30,30,0.7) 99.64%);
+    background: #222222;
     border-color: #3a3a3a;
+    &__title { color: #e0e0e0; }
   }
 
   .search-input {
@@ -463,20 +516,12 @@ $ff:      'Noto Sans Georgian', sans-serif;
     }
   }
 
-  .status-banner {
-    background: #222222;
-    border-color: #3a3a3a;
-  }
+  .status-banner { background: #222222; border-color: #3a3a3a; }
 
   .doc {
     background: #222222;
     border-color: #3a3a3a;
-
-    &__header svg {
-      background: #2a2a2a;
-      border-color: #3a3a3a;
-    }
-
+    &__header svg { background: #2a2a2a; border-color: #3a3a3a; }
     &__note { color: #808080; }
   }
 
@@ -490,13 +535,11 @@ $ff:      'Noto Sans Georgian', sans-serif;
 
   .pax-table {
     border-color: #3a3a3a;
-
     &__head {
       background: #2a2a2a;
       border-color: #3a3a3a;
       .pax-cell { color: #808080; }
     }
-
     &__row {
       border-color: #333333;
       &:hover { background: #2a2a2a; }
@@ -517,7 +560,7 @@ $ff:      'Noto Sans Georgian', sans-serif;
 
   .payment-row {
     border-color: #3a3a3a;
-    &__left  { border-color: #3a3a3a; }
+    &__left { border-color: #3a3a3a; }
   }
 
   .total-label  { color: #808080; }
@@ -533,7 +576,7 @@ $ff:      'Noto Sans Georgian', sans-serif;
     background: #222222;
     border-color: #3a3a3a;
     &__title { color: #e0e0e0; }
-    &__id    { color: #808080; code { color: #e0e0e0; } }
+    &__id { color: #808080; code { color: #e0e0e0; } }
   }
 
   .modal {

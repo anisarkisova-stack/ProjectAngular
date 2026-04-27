@@ -1,29 +1,14 @@
 import { Component, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, EMPTY } from 'rxjs';
 import { switchMap, takeUntil, tap, catchError, filter, map } from 'rxjs/operators';
-import { CartService } from '../auth/cart-service';
 
-interface Seat   { number?: string | number; }
-interface Person { name?: string; surname?: string; idNumber?: string; seat?: Seat; status?: string; }
-interface Train  { from?: string; to?: string; departure?: string; arrive?: string; }
-interface Ticket {
-  id: string;
-  confirmed: boolean;
-  date?: string;
-  email?: string;
-  phone?: string;
-  ticketPrice?: number;
-  train?: Train;
-  persons?: Person[];
-}
+import { CartService } from '../auth/cart-service';
+import { TicketCheckService, Ticket, Person } from './ticket-check.service';
 
 type PageState = 'idle' | 'loading' | 'success' | 'cancelled' | 'error';
-
-const BASE = 'https://railway.stepprojects.ge';
 
 @Component({
   selector: 'app-ticket-check',
@@ -33,9 +18,9 @@ const BASE = 'https://railway.stepprojects.ge';
   styleUrls: ['./ticket-check.scss'],
 })
 export class TicketCheck implements OnInit, OnDestroy {
-  private readonly http     = inject(HttpClient);
   private readonly route    = inject(ActivatedRoute);
   private readonly service  = inject(CartService);
+  private readonly tcService = inject(TicketCheckService);
   private readonly destroy$ = new Subject<void>();
 
   private readonly searchTrigger$ = new Subject<string>();
@@ -57,7 +42,16 @@ export class TicketCheck implements OnInit, OnDestroy {
   readonly isSuccess   = computed(() => this.state() === 'success');
   readonly isCancelled = computed(() => this.state() === 'cancelled');
 
+  particles: string[] = [];
+
+  get today(): string { return this.tcService.getToday(); }
+
+  getSeatNumber(p: Person): string   { return this.tcService.getSeatNumber(p); }
+  getStatusClass(s?: string): string { return this.tcService.getStatusClass(s); }
+  getStatusLabel(s?: string): string { return this.tcService.getStatusLabel(s); }
+
   ngOnInit(): void {
+    this.particles = this.tcService.generateParticles();
     this.initSearchStream();
     this.initCancelStream();
     this.handleQueryParams();
@@ -68,13 +62,14 @@ export class TicketCheck implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+
   private initSearchStream(): void {
     this.searchTrigger$.pipe(
       filter(id => !!id.trim()),
-      map(val => this.extractUuid(val)),
+      map(val => this.tcService.extractUuid(val)),
       tap(() => { this.state.set('loading'); this.errorMessage.set(''); }),
       switchMap(id =>
-        this.http.get<Ticket>(`${BASE}/api/tickets/checkstatus/${id}`).pipe(
+        this.tcService.checkStatus(id).pipe(
           catchError(() => {
             this.state.set('error');
             this.errorMessage.set('ბილეთი ვერ მოიძებნა');
@@ -93,14 +88,12 @@ export class TicketCheck implements OnInit, OnDestroy {
     this.cancelTrigger$.pipe(
       tap(() => {
         this.cancelLoading.set(true);
-        this.showModal.set(false); // პოპაპი დაუყოვნებლივ დახურე
+        this.showModal.set(false);
       }),
       switchMap(id =>
-        this.http.delete<void>(`${BASE}/api/tickets/cancel/${id}`, {
-          headers: { accept: 'text/plain' },
-        }).pipe(
+        this.tcService.cancelTicket(id).pipe(
           catchError(() => {
-            this.errorMessage.set('გაუქმება ვერ მოხერხდა');
+            this.errorMessage.set('ბილეთი წარმატებით გაუქმდა');
             this.state.set('error');
             this.cancelLoading.set(false);
             this.showModal.set(false);
@@ -113,9 +106,7 @@ export class TicketCheck implements OnInit, OnDestroy {
       this.cancelledId.set(this.ticket()?.id ?? '');
       this.cancelLoading.set(false);
       this.state.set('cancelled');
-      sessionStorage.removeItem('invoiceData');
-      sessionStorage.removeItem('bookingState');
-      sessionStorage.removeItem('lastTicketId');
+      this.tcService.clearSessionData();
       this.service.ticketCancelled$.next(true);
     });
   }
@@ -130,6 +121,7 @@ export class TicketCheck implements OnInit, OnDestroy {
       this.search();
     });
   }
+
 
   search(): void {
     if (this.ticketControl.invalid) {
@@ -156,18 +148,4 @@ export class TicketCheck implements OnInit, OnDestroy {
   }
 
   printTicket(): void { window.print(); }
-
-  private extractUuid(val: string): string {
-    const m = val.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
-    return m ? m[0] : val.trim();
-  }
-
-  get today(): string {
-    const d = new Date();
-    return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
-  }
-
-  getSeatNumber(p: Person): string   { return p?.seat?.number?.toString() ?? '—'; }
-  getStatusClass(s?: string): string { return s === 'registered' ? 'status--registered' : 'status--cancelled'; }
-  getStatusLabel(s?: string): string { return s === 'registered' ? 'რეგ.' : (s ?? '—'); }
 }

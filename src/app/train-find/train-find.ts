@@ -1,32 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
-import { ChangeDetectorRef } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 
-interface Train {
-  id: number;
-  number: string;
-  name: string;
-  from: string;
-  to: string;
-  departure: string;
-  arrive: string;
-  date: string;
-}
-
-interface SearchParams {
-  fromId: number;
-  toId: number;
-  fromName: string;
-  toName: string;
-  date: string;
-  passengers: number;
-}
-
-const GEO_DAYS = ['კვირა','ორშაბათი','სამშაბათი','ოთხშაბათი','ხუთშაბათი','პარასკევი','შაბათი'];
+import { TrainFindService, Train, SearchParams } from './train-find.service';
 
 @Component({
   selector: 'app-train-find',
@@ -38,50 +15,34 @@ const GEO_DAYS = ['კვირა','ორშაბათი','სამშა�
 export class TrainFind implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-
-  params: SearchParams = JSON.parse(sessionStorage.getItem('trainSearch') || '{}');
-  trains: Train[] = [];
-  loading = true;
+  params: SearchParams = {} as SearchParams;
+  trains: Train[]      = [];
+  loading              = true;
 
   get formattedDate(): string {
-    if (!this.params.date) return '—';
-    const [y, m, d] = this.params.date.split('-').map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString('ka-GE', {
-      day: 'numeric', month: 'short', year: 'numeric',
-    });
+    return this.trainFindService.formatDate(this.params.date);
   }
 
-constructor(private http: HttpClient, private router: Router, private cdr: ChangeDetectorRef) {}
-  ngOnInit(): void {
-    let chosenDay: string | null = null;
+  constructor(
+    private trainFindService: TrainFindService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
-    if (this.params.date) {
-      const [y, m, d] = this.params.date.split('-').map(Number);
-      chosenDay = GEO_DAYS[new Date(y, m - 1, d).getDay()];
-    }
-    
-    this.http
-      .get<Train[]>('https://railway.stepprojects.ge/api/trains')
-      .pipe(
-        takeUntil(this.destroy$),
-        
-        map(data => data.filter(t =>
-          (!this.params.fromName || t.from === this.params.fromName) &&
-          (!this.params.toName   || t.to   === this.params.toName)   &&
-          (!chosenDay            || t.date  === chosenDay)
-          
-        ))
-      )
+  ngOnInit(): void {
+    this.params = this.trainFindService.getSearchParams();
+
+    this.trainFindService.getFilteredTrains(this.params)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
-     next: trains => {
-  this.trains = trains;
-  this.loading = false;
-  this.cdr.detectChanges();
-},
-error: () => {
-  this.loading = false;
-  this.cdr.detectChanges(); 
-},
+        next: trains => {
+          this.trains  = trains;
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
       });
   }
 
@@ -91,23 +52,6 @@ error: () => {
   }
 
   book(train: Train): void {
-    sessionStorage.setItem('bookingState', JSON.stringify({
-      route: {
-        trainId:        '#' + train.number,
-        trainName:      train.name,
-        from:           train.from,
-        to:             train.to,
-        depTime:        train.departure,
-        arrTime:        train.arrive,
-        date:           this.params.date        || '',
-        passengerCount: Number(this.params.passengers) || 1,
-        apiId:          train.id,
-        wagonDay:       train.date              || '',
-      },
-      contact:    { email: '', phone: '' },
-      passengers: [],
-    }));
-
-    this.router.navigate(['/booking']);
+    this.trainFindService.saveBookingAndNavigate(train, this.params);
   }
 }

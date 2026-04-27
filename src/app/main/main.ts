@@ -1,16 +1,11 @@
-// 
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-interface Station {
-  id: number;
-  name: string;
-}
+import { MainService, Station } from './main.service';
 
 interface CalendarCell {
   label: string;
@@ -48,15 +43,17 @@ export class Main implements OnInit, OnDestroy {
   today = new Date();
   calDate = new Date();
   calendarCells: CalendarCell[] = [];
+  particles: string[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private mainService: MainService) {
     this.today.setHours(0, 0, 0, 0);
   }
 
   ngOnInit(): void {
-     this.generateParticles();
-    this.http
-      .get<Station[]>('https://railway.stepprojects.ge/api/stations')
+    this.generateParticles();
+
+    this.mainService
+      .getStations()
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => (this.stations = data));
   }
@@ -65,6 +62,7 @@ export class Main implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 
   filteredFromStations(): Station[] {
     return this.stations.filter(s => s.id !== this.selectedTo?.id);
@@ -84,6 +82,7 @@ export class Main implements OnInit, OnDestroy {
     this.closeAll();
   }
 
+
   toggleDropdown(type: 'from' | 'to' | 'date'): void {
     if (this.openDropdown === type) { this.closeAll(); return; }
     this.openDropdown = type;
@@ -92,18 +91,6 @@ export class Main implements OnInit, OnDestroy {
 
   closeAll(): void {
     this.openDropdown = null;
-  }
-
-  onOverlayClick(event: MouseEvent): void {
-    if ((event.target as HTMLElement).classList.contains('auth-modal-overlay')) {
-      this.showAuthModal = false;
-    }
-  }
-
-  @HostListener('document:keydown.escape')
-  onEsc(): void {
-    this.closeAll();
-    this.showAuthModal = false;
   }
 
   buildCalendar(): void {
@@ -147,45 +134,48 @@ export class Main implements OnInit, OnDestroy {
     this.closeAll();
   }
 
-  search(): void {
-  this.submitted = true;
 
-  if (!this.selectedFrom || !this.selectedTo || !this.chosenDate) {
-    alert('ყველა ველი შესავსებია');
-    return;
+  search(): void {
+    this.submitted = true;
+
+    if (!this.selectedFrom || !this.selectedTo || !this.chosenDate) {
+      alert('ყველა ველი შესავსებია');
+      return;
+    }
+
+    if (!this.mainService.isAuthenticated()) {
+      this.showAuthModal = true;
+      return;
+    }
+
+    this.mainService.saveAndNavigate(
+      this.selectedFrom,
+      this.selectedTo,
+      this.chosenDate,
+      this.passengers || 1,
+    );
   }
 
-  // auth guard
-  // if (!sessionStorage.getItem('user')) {
-  //   this.showAuthModal = true;
-  //   return;
-  // }
 
-  const y = this.chosenDate.getFullYear();
-  const m = String(this.chosenDate.getMonth() + 1).padStart(2, '0');
-  const d = String(this.chosenDate.getDate()).padStart(2, '0');
+  onOverlayClick(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('auth-modal-overlay')) {
+      this.showAuthModal = false;
+    }
+  }
 
-  sessionStorage.setItem('trainSearch', JSON.stringify({
-    fromId: this.selectedFrom.id,
-    toId: this.selectedTo.id,
-    fromName: this.selectedFrom.name,
-    toName: this.selectedTo.name,
-    date: `${y}-${m}-${d}`,
-    passengers: this.passengers || 1,
-  }));
+  @HostListener('document:keydown.escape')
+  onEsc(): void {
+    this.closeAll();
+    this.showAuthModal = false;
+  }
 
-  this.router.navigate(['/train-find']);
+  private generateParticles(): void {
+    this.particles = Array.from({ length: 15 }, () => {
+      const left = Math.random() * 100;
+      const delay = Math.random() * 12;
+      const duration = 12 + Math.random() * 16;
+      const size = 20 + Math.random() * 60;
+      return `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;width:${size}px;height:${size}px`;
+    });
+  }
 }
-  particles: string[] = [];
-
-private generateParticles(): void {
-  this.particles = Array.from({ length: 15 }, () => {
-    const left = Math.random() * 100;
-    const delay = Math.random() * 12;
-    const duration = 12 + Math.random() * 16;
-    const size = 20 + Math.random() * 60;
-    return `left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;width:${size}px;height:${size}px`;
-  });
-}
-}
-  

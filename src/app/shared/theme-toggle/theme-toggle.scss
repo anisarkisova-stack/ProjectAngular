@@ -1,33 +1,26 @@
-// ─── პროექტის ფერები ────────────────────────────────────────────────────────
 $b-red:        #8b1a1a;
 $b-red-hover:  #a01e1e;
 $b-red-light:  #fde8e8;
 $b-red-xlight: #fff5f5;
 
-// ─── Toggle ზომა (შეცვლა font-size-ით) ─────────────────────────────────────
 .theme-switch {
-  --toggle-size:               12px;   // ← აქ შეცვალე ზომა (px)
+  --toggle-size:               12px;   
 
   --container-width:           5.625em;
   --container-height:          2.5em;
   --container-radius:          6.25em;
 
-  // ☀️ Light (day) — წითელი gradient, პროექტის სტილში
   --container-light-bg:        #e8a0a0;
 
-  // 🌙 Dark (night) — მუქი ღამის ფერი
   --container-night-bg:        #2a0f0f;
 
- --circle-container-diameter: 2.2em;   // 3.375em-დან
---sun-moon-diameter:         2.2em;   // 2.125em-დან
+ --circle-container-diameter: 2.2em;   
+--sun-moon-diameter:         2.2em;   
 
-  // მზე — თბილი ვარდისფერი (day)
   --sun-bg:                    #f28e8e;
 
-  // მთვარე — ვერცხლისფერი
   --moon-bg:                   #e0c8c8;
 
-  // ლაქები მთვარეზე — ღია ვარდისფერი
   --spot-color:                #c49494;
 
   --circle-container-offset:   calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
@@ -41,7 +34,6 @@ $b-red-xlight: #fff5f5;
   display: inline-flex;
   align-items: center;
 
-  // ─── Reset ────────────────────────────────────────────────────────────────
   &, & *, & *::before, & *::after {
     box-sizing: border-box;
     margin: 0;
@@ -50,7 +42,6 @@ $b-red-xlight: #fff5f5;
   }
 }
 
-// ─── Container ───────────────────────────────────────────────────────────────
 .theme-switch__container {
   width: var(--container-width);
   height: var(--container-height);
@@ -76,10 +67,8 @@ $b-red-xlight: #fff5f5;
   }
 }
 
-// ─── Hidden checkbox ─────────────────────────────────────────────────────────
 .theme-switch__checkbox { display: none; }
 
-// ─── Circle container (მზე/მთვარის ბურთი) ────────────────────────────────────
 .theme-switch__circle-container {
   width: var(--circle-container-diameter);
   height: var(--circle-container-diameter);
@@ -100,7 +89,6 @@ $b-red-xlight: #fff5f5;
   &:hover { left: calc(var(--circle-container-offset) + 0.187em); }
 }
 
-// ─── მზის/მთვარის ბურთი ──────────────────────────────────────────────────────
 .theme-switch__sun-moon-container {
   pointer-events: auto;
   position: relative;
@@ -122,7 +110,6 @@ $b-red-xlight: #fff5f5;
   transition: var(--transition);
 }
 
-// ─── მთვარე ───────────────────────────────────────────────────────────────────
 .theme-switch__moon {
   transform: translateX(100%);
   width: 100%;
@@ -136,7 +123,6 @@ $b-red-xlight: #fff5f5;
   position: relative;
 }
 
-// ─── ლაქები მთვარეზე ─────────────────────────────────────────────────────────
 .theme-switch__spot {
   position: absolute;
   top: 0.75em;
@@ -162,7 +148,6 @@ $b-red-xlight: #fff5f5;
   }
 }
 
-// ─── ღრუბლები ────────────────────────────────────────────────────────────────
 .theme-switch__clouds {
   width: 1.25em;
   height: 1.25em;
@@ -190,7 +175,6 @@ $b-red-xlight: #fff5f5;
   transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
 }
 
-// ─── ვარსკვლავები ─────────────────────────────────────────────────────────────
 .theme-switch__stars-container {
   position: absolute;
   color: var(--stars-color);
@@ -201,7 +185,6 @@ $b-red-xlight: #fff5f5;
   transition: var(--transition);
 }
 
-// ─── Checked (dark mode) ─────────────────────────────────────────────────────
 .theme-switch__checkbox:checked + .theme-switch__container {
   background-color: var(--container-night-bg);
 }

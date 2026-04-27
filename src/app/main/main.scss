@@ -197,7 +197,6 @@ $white:      #ffffff;
   }
 }
 
-// floating shapes
 .particle {
   position: absolute;
   border-radius: 50%;
@@ -212,7 +211,6 @@ $white:      #ffffff;
   100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
 }
 
-// ─── Booking Card ─────────────────────────────────────────────────────────────
 .booking-card {
   background: $white;
   border-radius: 28px;
@@ -464,7 +462,6 @@ $white:      #ffffff;
   &.active { display: block; }
 }
 
-// ─── Auth Modal ───────────────────────────────────────────────────────────────
 .auth-modal-overlay {
   display: none;
   position: fixed;
@@ -556,7 +553,6 @@ $white:      #ffffff;
   }
 }
 
-// ─── Animations ───────────────────────────────────────────────────────────────
 @keyframes fadeInLeft {
   from { opacity: 0; transform: translateX(-40px); }
   to   { opacity: 1; transform: translateX(0); }

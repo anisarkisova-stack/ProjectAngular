@@ -45,15 +45,22 @@ export class Profile implements OnInit {
   });
 
   constructor(public service: CartService) {}
+particles: string[] = [];
 
-  ngOnInit() {
+ngOnInit(): void {
+  this.particles = Array.from({ length: 12 }, () => {
+    const size = Math.random() * 60 + 20;
+    return `width:${size}px; height:${size}px; left:${Math.random() * 100}%; animation-duration:${Math.random() * 20 + 15}s; animation-delay:${Math.random() * 10}s;`;
+  })
     this.service.getProfile().subscribe({
       next: (data: any) => {
         this.user = data;
         this.profileForm.patchValue(data);
       },
       error: () => { this.errorMsg = 'პროფილის ჩატვირთვა ვერ მოხერხდა'; }
-    });
+    })
+  ;
+
 
     this.loadTickets();
 

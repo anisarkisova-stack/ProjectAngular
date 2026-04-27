@@ -47,11 +47,11 @@ body {
 }
 
 .topbar {
-  background: linear-gradient(89.58deg, rgba(0, 0, 0, 0.3) 0.34%, rgba(143, 4, 4, 0.645) 99.64%);
-  color: rgba(0, 0, 0, 0.373);
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 40%, #ffd0d0 100%);
+  color: black;
   padding: 12px 32px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 18px;
   letter-spacing: 0.3px;
 }
 
@@ -190,4 +190,50 @@ body {
   .card { padding: 24px 18px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .topbar { padding: 10px 16px; }
+}
+:host-context([data-theme="dark"]) {
+  .register-page { background: #1a1a1a; }
+
+  .topbar {
+    background: linear-gradient(89.58deg, rgba(222, 161, 161, 0.6) 0.34%, rgba(53, 25, 25, 0.8) 99.64%);
+    color: black;
+    font-size: 18px;
+  }
+
+  .card {
+    background: #222222;
+    border-color: #3a3a3a;
+
+    &__amount {
+      color: #808080;
+      border-color: #3a3a3a;
+      .amount-val { color: #c4908a; }
+    }
+  }
+
+  .form-label { color: #808080; }
+
+  .input {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #e0e0e0;
+    &::placeholder { color: #555555; }
+    &:focus {
+      border-color: #b87870;
+      box-shadow: 0 0 0 3px rgba(184,120,112,0.15);
+      background: #303030;
+    }
+  }
+
+  .btn-pay {
+    background: #7a4040;
+    &:hover { background: #8a5050; }
+    &:disabled { background: #4a3030; }
+  }
+
+  .error-msg {
+    background: #2f1a1a;
+    border-color: #5a3030;
+    color: #c4908a;
+  }
 }

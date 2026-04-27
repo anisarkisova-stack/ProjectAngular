@@ -1,7 +1,13 @@
-<div class="profile-page">
-  <div class="profile-container">
 
-    <div class="sidebar">
+<div class="profile-page">
+  <div class="profile-particles">
+    @for (p of particles; track $index) {
+      <div class="particle" [style]="p"></div>
+    }
+  </div>
+
+  <div class="profile-container">
+     <div class="sidebar">
       <div class="card avatar-card">
         <div class="avatar-wrap">
           <div class="avatar">
@@ -44,7 +50,6 @@
       <div class="alert success" *ngIf="successMsg">{{ successMsg }}</div>
       <div class="alert error" *ngIf="errorMsg">{{ errorMsg }}</div>
 
-      <!-- პირადი ინფო -->
       <div class="card" *ngIf="activeTab === 'info'">
         <div class="section-title">პირადი ინფორმაცია</div>
 
@@ -107,20 +112,6 @@
         </div>
 
         <div class="field">
-          <label>ელ-ფოსტა</label>
-          <div class="inline-edit">
-            <input [formControl]="$any(profileForm.get('email'))" [readonly]="editingField !== 'email'"/>
-            <button *ngIf="editingField !== 'email'" class="edit-btn" (click)="editField('email')">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
-            </button>
-            <ng-container *ngIf="editingField === 'email'">
-              <button class="save-btn-sm" (click)="saveField('email')">შენახვა</button>
-              <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
-            </ng-container>
-          </div>
-        </div>
-
-        <div class="field">
           <label>მისამართი</label>
           <div class="inline-edit">
             <input [formControl]="$any(profileForm.get('address'))" [readonly]="editingField !== 'address'"/>
@@ -148,27 +139,9 @@
               </ng-container>
             </div>
           </div>
-          <div class="field">
-            <label>სქესი</label>
-            <div class="inline-edit">
-              <select [formControl]="$any(profileForm.get('gender'))" [attr.disabled]="editingField !== 'gender' ? true : null">
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
-              </select>
-              <button *ngIf="editingField !== 'gender'" class="edit-btn" (click)="editField('gender')">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="14" height="14"><path fill="currentColor" d="M539.3 64.1C549.2 63.3 558.9 67.1 565.9 74.1C572.9 81.1 576.7 90.8 575.9 100.7C571.9 150 558.5 226.9 529.6 300.4C527.8 304.9 524.1 308.3 519.4 309.7L438.5 334C434.6 335.2 432 338.7 432 342.8C432 347.9 436.1 352 441.2 352L479.8 352C491.8 352 499.5 364.8 493.3 375.1C489.3 381.8 485 388.3 480.6 394.7C478.6 397.6 475.6 399.7 472.2 400.8L374.5 430C370.6 431.2 368 434.7 368 438.8C368 443.9 372.1 448 377.2 448L393.2 448C407.8 448 414.2 465.4 402 473.4C334 518.4 264.3 516.7 219.6 504.7C206.9 501.3 195.6 494.8 185.2 486.8L112 560C103.2 568.8 88.8 568.8 80 560C71.2 551.2 71.2 536.8 80 528L160 448L160.5 448.5C161.2 447.2 162.1 446 163.2 444.9L320 288C328.8 279.2 328.8 264.8 320 256C311.2 247.2 296.8 247.2 288 256L153.7 390.2C144.8 399.1 129.7 394.6 128.7 382C124.4 328.8 138 258.9 201.3 195.6C292.4 104.5 455.5 70.9 539.2 64.1z"/></svg>
-              </button>
-              <ng-container *ngIf="editingField === 'gender'">
-                <button class="save-btn-sm" (click)="saveField('gender')">შენახვა</button>
-                <button class="cancel-btn" (click)="cancelEdit()">გაუქმება</button>
-              </ng-container>
-            </div>
-          </div>
         </div>
       </div>
 
-      <!-- პაროლი -->
       <div class="card" *ngIf="activeTab === 'password'">
         <div class="section-title">პაროლის შეცვლა</div>
         <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
@@ -190,7 +163,6 @@
         </form>
       </div>
 
-      <!-- ბილეთები -->
       <div class="card" *ngIf="activeTab === 'tickets'">
         <div class="section-title">ჩემი ბილეთები</div>
         <div *ngIf="tickets.length === 0" style="text-align:center;color:#aaa;padding:2rem 0">

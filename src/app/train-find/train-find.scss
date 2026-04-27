@@ -8,12 +8,15 @@ $b-muted:      #64748b;
 $b-light:      #94a3b8;
 $b-white:      #ffffff;
 $b-bg:         #fdf5f5;
+.train-page {
+  min-height: calc(100vh - 13vh - 25vh);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe4e4 40%, #ffd0d0 100%);
+}
 
 .train-section {
   max-width: 920px;
   margin: 0 auto;
   padding: 60px 24px 60px;
-  height: 62vh;
   
 }
 
@@ -192,4 +195,49 @@ $b-bg:         #fdf5f5;
   }
 
   .route-badge { flex-wrap: wrap; }
+}
+:host-context([data-theme="dark"]) {
+   .train-page {
+    background: linear-gradient(135deg, #1a1a1a 0%, #242424 40%, #1e1e1e 100%);
+  }
+
+  .route-badge {
+    background: #222222;
+    border-color: #3a3a3a;
+  }
+
+  .badge-station { color: #e0e0e0; }
+  .badge-meta    { color: #808080; }
+
+  .train-table {
+    background: #222222;
+    border-color: #3a3a3a;
+  }
+
+  .table-title { color: #e0e0e0; border-color: #3a3a3a; }
+
+  .table-head {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    span { color: #666666; }
+  }
+
+  .train-row {
+    border-color: #3a3a3a;
+    &:hover { background: #2f2020; }
+    &:nth-child(odd) {
+      background: #252525;
+      &:hover { background: #2f2020; }
+    }
+  }
+
+  .row-number { color: #e0e0e0; }
+  .row-route  { color: #808080; }
+
+  .row-time { border-color: #3a3a3a; }
+  .time-val  { color: #e0e0e0; }
+  .time-city { color: #808080; }
+
+  .train-loading,
+  .train-empty { color: #666666; }
 }

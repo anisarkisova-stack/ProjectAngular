@@ -1,191 +1,199 @@
-<section class="check-wrap">
-
-  <div class="search-card">
-    <h2 class="search-card__title">ბილეთის შემოწმება</h2>
-    <div class="search-row">
-      <input
-        class="search-input"
-        type="text"
-        placeholder="შეიყვანეთ ბილეთის ნომერი"
-        [formControl]="ticketControl"
-        (keydown.enter)="search()"
-        [class.search-input--error]="errorMessage()"
-      />
-      <button class="btn btn--primary" [disabled]="isLoading()" (click)="search()">
-        @if (isLoading()) {
-          <span class="spinner"></span>
-          <span>იძებნება...</span>
-        } @else {
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <span>შემოწმება</span>
-        }
-      </button>
-    </div>
-
-    @if (errorMessage()) {
-      <div class="alert alert--error">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        {{ errorMessage() }}
-      </div>
+<div class="check-page">
+  <div class="check-particles">
+    @for (p of particles; track $index) {
+      <div class="particle" [style]="p"></div>
     }
   </div>
 
-  @if (isSuccess() && ticket(); as t) {
-    <div class="result-area">
+  <section class="check-wrap">
 
-      <div class="status-banner">
-        <div class="status-banner__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" width="20" height="20">
-            <path d="M20 6L9 17l-5-5"/>
-          </svg>
-        </div>
-        <div>
-          <div class="status-banner__title">ბილეთი ნაპოვნია</div>
-          <div class="status-banner__sub"
-            [class.text--green]="t.confirmed"
-            [class.text--amber]="!t.confirmed">
-            {{ t.confirmed ? 'ბილეთი დადასტურებულია' : 'ბილეთი არ არის დადასტურებული' }}
-          </div>
-        </div>
-        <button class="btn btn--ghost btn--sm ml-auto" (click)="printTicket()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15">
-            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
-            <rect x="6" y="14" width="12" height="8"/>
-          </svg>
-          <span>დაბეჭდვა</span>
+    <div class="search-card">
+      <h2 class="search-card__title">ბილეთის შემოწმება</h2>
+      <div class="search-row">
+        <input
+          class="search-input"
+          type="text"
+          placeholder="შეიყვანეთ ბილეთის ნომერი"
+          [formControl]="ticketControl"
+          (keydown.enter)="search()"
+          [class.search-input--error]="errorMessage()"
+        />
+        <button class="btn btn--primary" [disabled]="isLoading()" (click)="search()">
+          @if (isLoading()) {
+            <span class="spinner"></span>
+            <span>იძებნება...</span>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span>შემოწმება</span>
+          }
         </button>
       </div>
 
-      <div class="doc">
-        <div class="doc__header">
-          <div class="doc__brand">Step Railway</div>
-          <svg width="42" height="42" viewBox="0 -15.5 1055 1055" xmlns="http://www.w3.org/2000/svg">
-            <path d="M219.508059 593.933479h600.814167s-23.510324 70.530972-62.694197 70.530972H229.946643l-10.438584-70.530972zM222.109868 348.391655h130.62336v143.663753zM459.830591 356.22843h143.679427l151.500528 122.770912h-148.898719z" fill="#C0EAFF"/>
-            <path d="M751.421303 677.536192H224.727351a15.673549 15.673549 0 0 1-15.67355-15.67355V277.89203a15.673549 15.673549 0 0 1 31.347099 0v368.297063h511.020403c22.115378 0 41.5976-12.726922 53.446803-34.920668 14.451013-27.06822 13.353864-60.546921-2.664503-85.938071L576.002939 338.580013a15.01526 15.01526 0 0 1-1.285231-1.175516c-27.397364-28.275083-62.584483-43.838918-99.072506-43.838918H300.493288a15.673549 15.673549 0 0 1 0-31.347098h175.151914c44.763657 0 87.693509 18.714218 120.968454 52.741493l227.407528 187.722101c1.175516 0.97176 2.194297 2.100256 3.040668 3.354139 23.49465 35.093077 25.641927 82.192093 5.470069 119.981021-17.209557 32.256165-47.537875 51.518957-81.110618 51.518957z" fill="#1F87DD"/>
-            <path d="M781.138353 507.117689h-325.226149a15.673549 15.673549 0 0 1-15.67355-15.673549v-141.061944a15.673549 15.673549 0 0 1 15.67355-15.67355h69.230067a15.673549 15.673549 0 0 1 0 31.347099h-53.556518v109.714846h309.5526a15.673549 15.673549 0 0 1 0 31.347098zM353.673641 507.117689H236.357124a15.673549 15.673549 0 0 1 0-31.347098h101.642968v-109.714846H236.357124a15.673549 15.673549 0 0 1 0-31.347099h117.316517a15.673549 15.673549 0 0 1 15.67355 15.67355v141.061944a15.673549 15.673549 0 0 1-15.67355 15.673549z" fill="#1F87DD"/>
+      @if (errorMessage()) {
+        <div class="alert alert--error">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
+          {{ errorMessage() }}
+        </div>
+      }
+    </div>
+
+    @if (isSuccess() && ticket(); as t) {
+      <div class="result-area">
+
+        <div class="status-banner">
+          <div class="status-banner__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" width="20" height="20">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+          </div>
+          <div>
+            <div class="status-banner__title">ბილეთი ნაპოვნია</div>
+            <div class="status-banner__sub"
+              [class.text--green]="t.confirmed"
+              [class.text--amber]="!t.confirmed">
+              {{ t.confirmed ? 'ბილეთი დადასტურებულია' : 'ბილეთი არ არის დადასტურებული' }}
+            </div>
+          </div>
+          <button class="btn btn--ghost btn--sm ml-auto" (click)="printTicket()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15">
+              <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+              <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            <span>დაბეჭდვა</span>
+          </button>
         </div>
 
-        <div class="doc__meta">
-          <span>ბილეთის ნომერი: <strong>{{ t.id }}</strong></span>
-          <span>გაცემის თარიღი: <strong>{{ today }}</strong></span>
-        </div>
+        <div class="doc">
+          <div class="doc__header">
+            <div class="doc__brand">Step Railway</div>
+            <svg width="42" height="42" viewBox="0 -15.5 1055 1055" xmlns="http://www.w3.org/2000/svg">
+              <path d="M219.508059 593.933479h600.814167s-23.510324 70.530972-62.694197 70.530972H229.946643l-10.438584-70.530972zM222.109868 348.391655h130.62336v143.663753zM459.830591 356.22843h143.679427l151.500528 122.770912h-148.898719z" fill="#C0EAFF"/>
+              <path d="M751.421303 677.536192H224.727351a15.673549 15.673549 0 0 1-15.67355-15.67355V277.89203a15.673549 15.673549 0 0 1 31.347099 0v368.297063h511.020403c22.115378 0 41.5976-12.726922 53.446803-34.920668 14.451013-27.06822 13.353864-60.546921-2.664503-85.938071L576.002939 338.580013a15.01526 15.01526 0 0 1-1.285231-1.175516c-27.397364-28.275083-62.584483-43.838918-99.072506-43.838918H300.493288a15.673549 15.673549 0 0 1 0-31.347098h175.151914c44.763657 0 87.693509 18.714218 120.968454 52.741493l227.407528 187.722101c1.175516 0.97176 2.194297 2.100256 3.040668 3.354139 23.49465 35.093077 25.641927 82.192093 5.470069 119.981021-17.209557 32.256165-47.537875 51.518957-81.110618 51.518957z" fill="#1F87DD"/>
+              <path d="M781.138353 507.117689h-325.226149a15.673549 15.673549 0 0 1-15.67355-15.673549v-141.061944a15.673549 15.673549 0 0 1 15.67355-15.67355h69.230067a15.673549 15.673549 0 0 1 0 31.347099h-53.556518v109.714846h309.5526a15.673549 15.673549 0 0 1 0 31.347098zM353.673641 507.117689H236.357124a15.673549 15.673549 0 0 1 0-31.347098h101.642968v-109.714846H236.357124a15.673549 15.673549 0 0 1 0-31.347099h117.316517a15.673549 15.673549 0 0 1 15.67355 15.67355v141.061944a15.673549 15.673549 0 0 1-15.67355 15.673549z" fill="#1F87DD"/>
+            </svg>
+          </div>
 
-        @if (t.train) {
-          <div class="info-grid info-grid--3">
-            <div class="info-cell">
-              <div class="info-cell__label">გამგზავრება</div>
-              <div class="info-cell__value">{{ t.train.from }} {{ t.train.departure }}</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell__label">ჩასვლა</div>
-              <div class="info-cell__value">{{ t.train.to }} {{ t.train.arrive }}</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell__label">გასვლის თარიღი</div>
-              <div class="info-cell__value">{{ t.date || '—' }}</div>
-            </div>
+          <div class="doc__meta">
+            <span>ბილეთის ნომერი: <strong>{{ t.id }}</strong></span>
+            <span>გაცემის თარიღი: <strong>{{ today }}</strong></span>
           </div>
-        }
 
-        <div class="section-title">საკონტაქტო ინფორმაცია</div>
-        <div class="info-grid info-grid--2">
-          <div class="info-cell">
-            <div class="info-cell__label">იმეილი</div>
-            <div class="info-cell__value">{{ t.email || '—' }}</div>
-          </div>
-          <div class="info-cell">
-            <div class="info-cell__label">ტელ. ნომერი</div>
-            <div class="info-cell__value">{{ t.phone || '—' }}</div>
-          </div>
-        </div>
-
-        <div class="section-title">მგზავრები</div>
-        <div class="pax-table">
-          <div class="pax-table__head">
-            <div class="pax-cell">სახელი</div>
-            <div class="pax-cell">გვარი</div>
-            <div class="pax-cell">პირადი ნომერი</div>
-            <div class="pax-cell">ადგილი</div>
-            <div class="pax-cell">სტატუსი</div>
-          </div>
-          @for (p of t.persons; track $index) {
-            <div class="pax-table__row">
-              <div class="pax-cell"><strong>{{ p.name || '—' }}</strong></div>
-              <div class="pax-cell">{{ p.surname || '—' }}</div>
-              <div class="pax-cell">{{ p.idNumber || '—' }}</div>
-              <div class="pax-cell">{{ getSeatNumber(p) }}</div>
-              <div class="pax-cell">
-                <span class="status-badge" [ngClass]="getStatusClass(p.status)">
-                  {{ getStatusLabel(p.status) }}
-                </span>
+          @if (t.train) {
+            <div class="info-grid info-grid--3">
+              <div class="info-cell">
+                <div class="info-cell__label">გამგზავრება</div>
+                <div class="info-cell__value">{{ t.train.from }} {{ t.train.departure }}</div>
+              </div>
+              <div class="info-cell">
+                <div class="info-cell__label">ჩასვლა</div>
+                <div class="info-cell__value">{{ t.train.to }} {{ t.train.arrive }}</div>
+              </div>
+              <div class="info-cell">
+                <div class="info-cell__label">გასვლის თარიღი</div>
+                <div class="info-cell__value">{{ t.date || '—' }}</div>
               </div>
             </div>
           }
-        </div>
 
-        <div class="payment-row">
-          <div class="payment-row__left">
-            <div class="info-cell__label">სტატუსი</div>
-            @if (t.confirmed) {
-              <span class="pill pill--green">დადასტურებულია</span>
-            } @else {
-              <span class="pill pill--amber">მოლოდინში</span>
+          <div class="section-title">საკონტაქტო ინფორმაცია</div>
+          <div class="info-grid info-grid--2">
+            <div class="info-cell">
+              <div class="info-cell__label">იმეილი</div>
+              <div class="info-cell__value">{{ t.email || '—' }}</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell__label">ტელ. ნომერი</div>
+              <div class="info-cell__value">{{ t.phone || '—' }}</div>
+            </div>
+          </div>
+
+          <div class="section-title">მგზავრები</div>
+          <div class="pax-table">
+            <div class="pax-table__head">
+              <div class="pax-cell">სახელი</div>
+              <div class="pax-cell">გვარი</div>
+              <div class="pax-cell">პირადი ნომერი</div>
+              <div class="pax-cell">ადგილი</div>
+              <div class="pax-cell">სტატუსი</div>
+            </div>
+            @for (p of t.persons; track $index) {
+              <div class="pax-table__row">
+                <div class="pax-cell"><strong>{{ p.name || '—' }}</strong></div>
+                <div class="pax-cell">{{ p.surname || '—' }}</div>
+                <div class="pax-cell">{{ p.idNumber || '—' }}</div>
+                <div class="pax-cell">{{ getSeatNumber(p) }}</div>
+                <div class="pax-cell">
+                  <span class="status-badge" [ngClass]="getStatusClass(p.status)">
+                    {{ getStatusLabel(p.status) }}
+                  </span>
+                </div>
+              </div>
             }
           </div>
-          <div class="payment-row__right">
-            <span class="total-label">სულ გადახდილი</span>
-            <span class="total-amount">{{ t.ticketPrice || 0 }}₾</span>
+
+          <div class="payment-row">
+            <div class="payment-row__left">
+              <div class="info-cell__label">სტატუსი</div>
+              @if (t.confirmed) {
+                <span class="pill pill--green">დადასტურებულია</span>
+              } @else {
+                <span class="pill pill--amber">მოლოდინში</span>
+              }
+            </div>
+            <div class="payment-row__right">
+              <span class="total-label">სულ გადახდილი</span>
+              <span class="total-amount">{{ t.ticketPrice || 0 }}₾</span>
+            </div>
           </div>
+
+          <p class="doc__note">
+            ინვოისი იქმნება კომპიუტერის მიერ და ვალიდურია ბეჭდის და ხელმოწერის გარეშე<br/>
+            <span class="doc__note--warn">გადმოწერეთ ბილეთი ან შეინახეთ ბილეთის ნომერი ადგილზე წარსადგენად.</span>
+          </p>
         </div>
 
-        <p class="doc__note">
-          ინვოისი იქმნება კომპიუტერის მიერ და ვალიდურია ბეჭდის და ხელმოწერის გარეშე<br/>
-          <span class="doc__note--warn">გადმოწერეთ ბილეთი ან შეინახეთ ბილეთის ნომერი ადგილზე წარსადგენად.</span>
-        </p>
+        <div class="cancel-bar">
+          <div class="cancel-bar__info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            ბილეთის გაუქმება შეუქცევადია. დარწმუნდით სანამ დაადასტურებთ.
+          </div>
+          <button class="btn btn--danger" (click)="openModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+            </svg>
+            ბილეთის გაუქმება
+          </button>
+        </div>
+
       </div>
+    }
 
-      <div class="cancel-bar">
-        <div class="cancel-bar__info">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          ბილეთის გაუქმება შეუქცევადია. დარწმუნდით სანამ დაადასტურებთ.
-        </div>
-        <button class="btn btn--danger" (click)="openModal()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+    @if (isCancelled()) {
+      <div class="cancelled-card">
+        <div class="cancelled-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" width="28" height="28">
             <polyline points="3 6 5 6 21 6"/>
             <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
             <path d="M10 11v6M14 11v6"/>
-            <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
           </svg>
-          ბილეთის გაუქმება
-        </button>
+        </div>
+        <h3 class="cancelled-card__title">ბილეთი წარმატებით გაუქმდა</h3>
+        <p class="cancelled-card__id">ბილეთის ნომერი: <code>{{ cancelledId() }}</code></p>
+        <button class="btn btn--primary" (click)="reset()">სხვა ბილეთის შემოწმება</button>
       </div>
+    }
 
-    </div>
-  }
-
-  @if (isCancelled()) {
-    <div class="cancelled-card">
-      <div class="cancelled-card__icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" width="28" height="28">
-          <polyline points="3 6 5 6 21 6"/>
-          <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
-          <path d="M10 11v6M14 11v6"/>
-        </svg>
-      </div>
-      <h3 class="cancelled-card__title">ბილეთი წარმატებით გაუქმდა</h3>
-      <p class="cancelled-card__id">ბილეთის ნომერი: <code>{{ cancelledId() }}</code></p>
-      <button class="btn btn--primary" (click)="reset()">სხვა ბილეთის შემოწმება</button>
-    </div>
-  }
-
-</section>
+  </section>
+</div>
 
 @if (showModal()) {
   <div class="modal-overlay" (click)="closeModal()">

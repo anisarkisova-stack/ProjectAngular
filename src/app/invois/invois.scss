@@ -213,7 +213,6 @@ $ff:       'Noto Sans Georgian', sans-serif;
   to   { opacity: 1; transform: none; }
 }
 
-// ── Doc header ─────────────────────────────────────────────
 .doc-header {
   display: flex;
   align-items: flex-start;
@@ -492,7 +491,7 @@ $ff:       'Noto Sans Georgian', sans-serif;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(89.58deg, rgba(0, 0, 0, 0.3) 0.34%, rgba(143, 4, 4, 0.645) 99.64%);
+    background: linear-gradient(89.58deg, rgba(222, 161, 161, 0.6) 0.34%, rgba(53, 25, 25, 0.8) 99.64%);
   border-radius: 10px;
   padding: 18px 22px;
   margin-top: 20px;
@@ -619,4 +618,88 @@ $ff:       'Noto Sans Georgian', sans-serif;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+:host-context([data-theme="dark"]) {
+  .hero {
+    background: #1e1e1e;
+    border-color: #3a3a3a;
+    &__title { color: #e0e0e0; }
+    &__sub   { color: #808080; }
+  }
+
+  .page { background: #1a1a1a; }
+
+  .side-btn {
+    background: #222222;
+    border-color: #3a3a3a;
+    color: #808080;
+    &:hover {
+      border-color: #b87870;
+      color: #c4908a;
+      background: #2a2a2a;
+    }
+  }
+
+  .doc {
+    background: #222222;
+    border-color: #3a3a3a;
+  }
+
+  .doc-brand {
+    &__logo { background: #2a2a2a; border-color: #3a3a3a; }
+    &__name { color: #e0e0e0; }
+    &__sub  { color: #808080; }
+  }
+
+  .divider { background: #3a3a3a; }
+
+  .route-section {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+  }
+
+  .route-point {
+    &__label { color: #666666; }
+    &__value { color: #a0a0a0; }
+  }
+
+  .route-date { border-color: #3a3a3a; }
+
+  .info-block {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+  }
+
+  .info-row {
+    border-color: #3a3a3a;
+    &__lbl { color: #666666; }
+    &__val { color: #a0a0a0; }
+  }
+
+  .pax-table {
+    border-color: #3a3a3a;
+
+    &__head {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      > div { color: #666666; }
+    }
+
+    &__row {
+      border-color: #3a3a3a;
+      > div { color: #a0a0a0; }
+    }
+  }
+
+  .doc-footer-note {
+    background: rgba(180,120,112,0.08);
+    border-color: rgba(180,120,112,0.2);
+  }
+
+  .step {
+    span { color: #666666; }
+    &__dot { background: #2a2a2a; border-color: #3a3a3a; }
+  }
+
+  .step__line { background: #3a3a3a; }
 }

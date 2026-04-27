@@ -521,3 +521,123 @@ body {
   .vagon-grid { grid-template-columns: repeat(2, 1fr); }
   .booking-topbar { padding: 10px 16px; }
 }
+:host-context([data-theme="dark"]) {
+  .booking-page { background: #1a1a1a; }
+
+  .booking-topbar {
+    background: #222222;
+    color: #808080;
+  }
+
+  .card {
+    background: #222222;
+    border-color: #3a3a3a;
+  }
+
+  .card-title { color: #c4908a; border-color: #3a3a3a; }
+
+  .route-card {
+    .route-time  { color: #e0e0e0; }
+    .route-city  { color: #808080; }
+    .route-label { color: #808080; }
+    .route-meta  { color: #808080; border-color: #3a3a3a; }
+    .route-line .line { background: #3a3a3a; }
+  }
+
+  .form-group {
+    label { color: #808080; }
+    input {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #e0e0e0;
+      &::placeholder { color: #555555; }
+      &:focus {
+        border-color: #b87870;
+        box-shadow: 0 0 0 3px rgba(184,120,112,0.15);
+        background: #303030;
+      }
+    }
+    &.error input { border-color: #c4908a !important; background: #2f1a1a !important; }
+    .err-msg { color: #c4908a; }
+  }
+
+  .passenger-block { border-color: #3a3a3a; }
+
+  .passenger-header {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+  }
+
+  .passenger-label { color: #e0e0e0; }
+
+  .seat-tag {
+    background: #3a3a3a;
+    color: #808080;
+  }
+
+  .invoice-card {
+    .invoice-empty { color: #808080; }
+    .invoice-row {
+      border-color: #3a3a3a;
+      color: #e0e0e0;
+      .invoice-price { color: #c4908a; }
+    }
+    .invoice-total {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      .total-val { color: #c4908a; }
+    }
+  }
+
+  .rules-check { color: #808080; }
+
+  .popup {
+    background: #222222;
+    .popup-close {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+      color: #808080;
+      &:hover { background: #2f2020; color: #c4908a; }
+    }
+    .popup-h   { color: #e0e0e0; }
+    .popup-sub { color: #808080; }
+  }
+
+  .popup-title2 { color: #e0e0e0; }
+  .popup-price2 { color: #808080; }
+
+  .vagon-card {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    &:hover { border-color: #b87870; }
+    &.active { border-color: #b87870; background: #2f2020; }
+    .vagon-cname { color: #808080; }
+    .free-count  { color: #808080; }
+  }
+
+  .back-btn {
+    border-color: #3a3a3a;
+    color: #808080;
+    &:hover { border-color: #b87870; color: #c4908a; }
+  }
+
+  .wagon-body {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+  }
+
+  .wagon-end-lbl {
+    background: #222222;
+    border-color: #3a3a3a;
+    color: #808080;
+  }
+
+  .aisle { color: #666666; }
+
+  .seat-legend { color: #808080; }
+
+  .popup-confirm {
+    background: #7a4040;
+    &:hover { background: #8a5050; }
+  }
+}
