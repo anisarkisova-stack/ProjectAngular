@@ -63,6 +63,7 @@ export class Main implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  // ── სადგურების ფილტრაცია ──────────────────────────────────────────────────
 
   filteredFromStations(): Station[] {
     return this.stations.filter(s => s.id !== this.selectedTo?.id);
@@ -82,6 +83,7 @@ export class Main implements OnInit, OnDestroy {
     this.closeAll();
   }
 
+  // ── Dropdown / Calendar ───────────────────────────────────────────────────
 
   toggleDropdown(type: 'from' | 'to' | 'date'): void {
     if (this.openDropdown === type) { this.closeAll(); return; }
@@ -134,6 +136,7 @@ export class Main implements OnInit, OnDestroy {
     this.closeAll();
   }
 
+  // ── ძიება ─────────────────────────────────────────────────────────────────
 
   search(): void {
     this.submitted = true;
@@ -156,6 +159,7 @@ export class Main implements OnInit, OnDestroy {
     );
   }
 
+  // ── UI helpers ────────────────────────────────────────────────────────────
 
   onOverlayClick(event: MouseEvent): void {
     if ((event.target as HTMLElement).classList.contains('auth-modal-overlay')) {

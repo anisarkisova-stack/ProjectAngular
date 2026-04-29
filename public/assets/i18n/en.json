@@ -1,0 +1,49 @@
+{
+    "HEADER": {
+        "TITLE": "Railway Ticket",
+        "LANGUAGES": "English",
+        "CURRENCY": "Gel",
+        "SIGN": "Sign in",
+        "CHECK_TICKET": "Ticket Check / Return",
+        "SIGN_IN": "Sign In / Register"
+    },
+    "MAIN": {
+        "TITLE": "Search Train Ticket",
+        "DESCRIPTION": "Search & Buy",
+        "FROM": "From",
+        "TO": "To",
+        "HERO_TITLE": "Travel",
+        "HERO_TITLE_ACCENT": "Simply",
+        "HERO_SUB": "Book your train ticket quickly and conveniently",
+        "STAT_ROUTES": "Routes",
+        "STAT_SERVICE": "Service",
+        "STAT_SECURE": "Secure",
+        "SEARCH_LABEL": "Search Tickets",
+        "STATION_PLACEHOLDER": "Station",
+        "DATE": "Date",
+        "DATE_PLACEHOLDER": "Select date",
+        "PASSENGERS": "Passengers",
+        "SEARCH_BTN": "Find Trains",
+        "TODAY": "Today",
+        "DAY_SUN": "Su",
+        "DAY_MON": "Mo",
+        "DAY_TUE": "Tu",
+        "DAY_WED": "We",
+        "DAY_THU": "Th",
+        "DAY_FRI": "Fr",
+        "DAY_SAT": "Sa",
+        "FEATURE_SECURE_PAY": "Secure Payment",
+        "FEATURE_SECURE_PAY_SUB": "Protected transaction",
+        "FEATURE_FAST": "Fast Booking",
+        "FEATURE_FAST_SUB": "Ready in a minute",
+        "FEATURE_ETICKET": "E-Ticket",
+        "FEATURE_ETICKET_SUB": "Instant delivery",
+        "AUTH_REQUIRED": "Authorization Required",
+        "AUTH_MESSAGE": "To purchase a ticket, please sign in to your account or register.",
+        "AUTH_BTN": "Sign In / Register",
+        "FILL_ALL": "Please fill in all fields"
+    },
+    "FOOTER": {
+        "RIGHTS": "All rights reserved."
+    }
+}

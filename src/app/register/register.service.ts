@@ -134,8 +134,8 @@ export class RegisterService {
     destroy$: Subject<void>,
     onDone: () => void
   ): void {
-    this.http.post<any>(this.BASE_URL + '/api/tickets/confirm/' + ticketId, {})
-      .pipe(takeUntil(destroy$))
+this.http.get<any>(this.BASE_URL + '/api/tickets/confirm/' + ticketId, {})   
+   .pipe(takeUntil(destroy$))
       .subscribe({
         next: () => this.finalizeAndNavigate(ticketId, savedCard, onDone),
         error: ()  => this.finalizeAndNavigate(ticketId, savedCard, onDone),

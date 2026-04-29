@@ -1,0 +1,49 @@
+{
+    "HEADER": {
+        "TITLE": "მატარებლის ბილეთები",
+        "LANGUAGES": "ინგლისური",
+        "CURRENCY": "ქართული",
+        "SIGN": "შესვლა",
+        "CHECK_TICKET": "ბილეთის შემოწმება/დაბრუნება",
+        "SIGN_IN": "შესვლა / რეგისტრაცია"
+    },
+    "MAIN": {
+        "TITLE": "მოძებნე მატარებლის ბილეთები",
+        "DESCRIPTION": "მოძებნე და იყიდე",
+        "FROM": "საიდან",
+        "TO": "სად",
+        "HERO_TITLE": "მოგზაურობა",
+        "HERO_TITLE_ACCENT": "მარტივად",
+        "HERO_SUB": "დაჯავშნეთ მატარებლის ბილეთი სწრაფად და მოხერხებულად",
+        "STAT_ROUTES": "მარშრუტი",
+        "STAT_SERVICE": "სერვისი",
+        "STAT_SECURE": "უსაფრთხო",
+        "SEARCH_LABEL": "ბილეთის ძიება",
+        "STATION_PLACEHOLDER": "სადგური",
+        "DATE": "თარიღი",
+        "DATE_PLACEHOLDER": "აირჩიეთ თარიღი",
+        "PASSENGERS": "მგზავრები",
+        "SEARCH_BTN": "მატარებლის მოძებნა",
+        "TODAY": "დღეს",
+        "DAY_SUN": "კვ",
+        "DAY_MON": "ორ",
+        "DAY_TUE": "სა",
+        "DAY_WED": "ოთ",
+        "DAY_THU": "ხუ",
+        "DAY_FRI": "პა",
+        "DAY_SAT": "შა",
+        "FEATURE_SECURE_PAY": "უსაფრთხო გადახდა",
+        "FEATURE_SECURE_PAY_SUB": "დაცული ტრანზაქცია",
+        "FEATURE_FAST": "სწრაფი ჯავშანი",
+        "FEATURE_FAST_SUB": "წუთში მზად",
+        "FEATURE_ETICKET": "ელექტრონული ბილეთი",
+        "FEATURE_ETICKET_SUB": "მყისიერი მიწოდება",
+        "AUTH_REQUIRED": "ავტორიზაცია საჭიროა",
+        "AUTH_MESSAGE": "ბილეთის შესაძენად გთხოვთ ჯერ შეხვიდეთ თქვენს ანგარიშზე ან დარეგისტრირდეთ.",
+        "AUTH_BTN": "შესვლა / რეგისტრაცია",
+        "FILL_ALL": "ყველა ველი შესავსებია"
+    },
+    "FOOTER": {
+        "RIGHTS": "ყველა უფლება დაცულია."
+    }
+}

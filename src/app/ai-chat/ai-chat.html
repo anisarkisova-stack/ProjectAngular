@@ -1,0 +1,88 @@
+<div class="chat-bubble" (click)="toggleChat()" [class.active]="isOpen">
+  @if (!isOpen) {
+    <div class="chat-bubble__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="38" height="38">
+        <path fill="rgb(255, 255, 255)" d="M64 304C64 358.4 83.3 408.6 115.9 448.9L67.1 538.3C65.1 542 64 546.2 64 550.5C64 564.6 75.4 576 89.5 576C93.5 576 97.3 575.4 101 573.9L217.4 524C248.8 536.9 283.5 544 320 544C461.4 544 576 436.5 576 304C576 171.5 461.4 64 320 64C178.6 64 64 171.5 64 304zM158 471.9C167.3 454.8 165.4 433.8 153.2 418.7C127.1 386.4 112 346.8 112 304C112 200.8 202.2 112 320 112C437.8 112 528 200.8 528 304C528 407.2 437.8 496 320 496C289.8 496 261.3 490.1 235.7 479.6C223.8 474.7 210.4 474.8 198.6 479.9L140 504.9L158 471.9zM208 336C225.7 336 240 321.7 240 304C240 286.3 225.7 272 208 272C190.3 272 176 286.3 176 304C176 321.7 190.3 336 208 336zM352 304C352 286.3 337.7 272 320 272C302.3 272 288 286.3 288 304C288 321.7 302.3 336 320 336C337.7 336 352 321.7 352 304zM432 336C449.7 336 464 321.7 464 304C464 286.3 449.7 272 432 272C414.3 272 400 286.3 400 304C400 321.7 414.3 336 432 336z"/>
+      </svg>
+      <span class="chat-bubble__dot"></span>
+    </div>
+  } @else {
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  }
+</div>
+
+@if (isOpen) {
+  <div class="chat-window">
+    <div class="chat-window__header">
+      <div class="chat-window__avatar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chat-window__name">Railway Assistant</div>
+        <div class="chat-window__status">
+          <span class="chat-window__online"></span> ონლაინ
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-window__messages" #messagesContainer>
+      @if (messages.length === 0) {
+        <div class="chat-welcome">
+          <div class="chat-welcome__icon">🚂</div>
+          <p>გამარჯობა! მე ვარ Step Railway-ის ასისტენტი. როგორ დაგეხმაროთ?</p>
+          <div class="chat-suggestions">
+            <button (click)="sendSuggestion('რა მარშრუტებია ხელმისაწვდომი?')">რა მარშრუტებია?</button>
+            <button (click)="sendSuggestion('როგორ ვიყიდო ბილეთი?')">როგორ ვიყიდო ბილეთი?</button>
+            <button (click)="sendSuggestion('How can I check my ticket?')">Check my ticket</button>
+          </div>
+        </div>
+      }
+
+      @for (msg of messages; track $index) {
+        <div class="chat-msg" [class.chat-msg--user]="msg.role === 'user'" [class.chat-msg--ai]="msg.role === 'assistant'">
+          @if (msg.role === 'assistant') {
+            <div class="chat-msg__avatar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+          }
+          <div class="chat-msg__bubble">{{ msg.content }}</div>
+        </div>
+      }
+
+      @if (loading) {
+        <div class="chat-msg chat-msg--ai">
+          <div class="chat-msg__avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="chat-msg__bubble chat-msg__bubble--typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="chat-window__input">
+      <input
+        type="text"
+        [(ngModel)]="inputText"
+        (keydown.enter)="send()"
+        placeholder="შეტყობინება..."
+        [disabled]="loading"
+      />
+      <button (click)="send()" [disabled]="loading || !inputText.trim()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+}
